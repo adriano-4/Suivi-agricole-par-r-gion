@@ -1,0 +1,43 @@
+
+.div_rond{
+     width: 90%;
+  height: 40px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 141, 0.068);
+  color: var(--bleu);
+  margin-bottom: 10px;
+  transition: all 0.3s;
+  cursor: pointer;
+  margin-left: 40px;
+  position: relative;
+  top: 30px;
+  padding-top: 5px;
+  padding-bottom: 5px;  
+}
+.div_rond p {
+  margin-left: 20px;
+  font-size: 13px;
+}
+.div_rond span {
+  margin-right: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.div_rond:hover {
+  background-color: rgba(0, 0, 141, 0.151);
+}
+#bas_droite_formation{
+    position: relative;
+    top: 20px;
+}
+.info_perso2_formation{
+    height: 600px;
+}
+
+#bas_droite_info_sup{
+  position: relative;
+  bottom: 35px;
+}

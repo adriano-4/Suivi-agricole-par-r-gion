@@ -1,0 +1,314 @@
+#gauche,
+#droite {
+  width: 50%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+}
+#gauche {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  flex-direction: column;
+}
+#droite {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  flex-direction: column;
+}
+h2 {
+  /* color: var(--vert-clair);*/
+  color: rgba(0, 0, 0, 0.375);
+  width: 100%;
+  display: flex;
+  align-items: start;
+  font-size: 16px;
+  margin-top: 40px;
+}
+h2 span {
+  margin-left: 70px;
+}
+.madareg {
+  width: 80%;
+  height: 80%;
+  border: 10px solid rgba(0, 0, 0, 0.077);
+  border-radius: 5px;
+}
+.madareg2 {
+  display: flex;
+  flex-wrap: wrap;
+  height: 85%;
+  width: 90%;
+  justify-content: center;
+  overflow: auto;
+}
+.madareg2::-webkit-scrollbar {
+  background-color: transparent;
+  width: 6px;
+}
+.madareg2::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.33);
+  width: 10px;
+  border-radius: 10px;
+}
+#info_perso2_region {
+  width: 1400px;
+  height: 550px;
+  background-color: white;
+  padding: 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.205);
+}
+#info_perso2_region .entete {
+  width: 100%;
+  height: 10%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+#info_perso2_region .entete h3 {
+  position: relative;
+  bottom: 10px;
+  left: 30px;
+  color: var(--bleu);
+}
+#info_perso2_region .entete #quitter {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(45deg);
+  position: relative;
+  right: 10px;
+  background-color: transparent;
+  color: black;
+  border: none;
+  outline: none;
+}
+#editer {
+  height: 30px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  background-color: rgba(3, 3, 111, 0.126);
+  color: var(--bleu);
+  border-radius: 20px;
+  position: relative;
+  right: 50px;
+  top: 2px;
+  transition: all 0.3s;
+  outline: none;
+  border: none;
+}
+#editer:hover {
+  background-color: rgba(3, 3, 111, 0.175);
+}
+#editer span {
+  position: relative;
+  bottom: 0.5px;
+}
+#editer i {
+  margin-left: 10px;
+  font-size: 12px;
+}
+.bas3 {
+  display: flex;
+  justify-content: space-around;
+}
+.bas3 div {
+  width: calc(100% / 3);
+}
+.bas3 div .haut {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  height: 50px;
+  align-items: center;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.058);
+}
+.bas3 div .haut h3 {
+  color: rgba(1, 1, 1, 0.562);
+  font-size: 14px;
+  position: relative;
+  bottom: 10px;
+  margin-left: 30px;
+}
+.bas3 div .haut button {
+  margin-right: 30px;
+  width: fit-content;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  font-size: 12px;
+  gap: 5px;
+  justify-content: center;
+  /* background-color: var(--vert-fonce); */
+  /* color: rgb(255, 255, 255); */
+ background-color: rgba(0, 128, 0, 0.111);
+  color: var(--vert-fonce);
+  /* font-weight: bold; */
+  border: none;
+  outline: none; 
+  transition: all 0.3s;
+}
+#disabled {
+  opacity: 0.6;
+  background-color: rgba(0, 0, 0, 0.071);
+  color: rgba(0, 0, 0, 0.288);
+}
+#ajout_inp {
+  background-color: rgba(0, 0, 0, 0.082);
+  border: none;
+  color: black;
+  width: 250px;
+  height: 30px;
+  position: relative;
+  left: 15px;
+  margin-top: 10px;
+}
+
+.bas3 div .haut button:hover {
+  background-color: rgba(0, 128, 0, 0.189);
+}
+#bas_tableau {
+  height: 400px;
+  width: 95%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#bas_tableau::-webkit-scrollbar {
+  background-color: transparent;
+  width: 6px;
+}
+#bas_tableau::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.233);
+  border-radius: 20px;
+}
+
+#bas_tableau table {
+  width: 90%;
+  position: relative;
+  left: 30px;
+  overflow: hidden;
+}
+
+#droite .nouv_reg {
+  display: flex;
+  align-items: center;
+}
+#droite .nouv_reg h2 {
+  position: relative;
+  right: 135px;
+}
+#ajouter_reg {
+  border-radius: 20px;
+  height: 35px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  background-color: rgba(0, 128, 6, 0.111);
+  color: var(--vert-fonce);
+  gap: 6px;
+  transition: all 0.3s;
+  border: none;
+  outline: none;
+  position: relative;
+  top: 15px;
+  transition: all 0.3s;
+  left: 60px;
+}
+#ajouter_reg:hover {
+  background-color: rgba(0, 128, 6, 0.178);
+}
+#ajouter_reg span {
+  position: relative;
+  bottom: 1.5px;
+}
+
+#validate-btn {
+  background-color: var(--vert-ppale);
+  width: 30px;
+  font-size: 10px;
+  height: 30px;
+  margin: 10px;
+  margin-left: 15px;
+  position: relative;
+  color: white;
+  left: 20px;
+}
+#annuler_btn {
+  background-color: rgba(0, 0, 0, 0.134);
+  color: rgb(0, 0, 0);
+  /* transform: rotate(45deg); */
+  width: 30px;
+  font-size: 13px;
+  height: 30px;
+  margin: 10px;
+  margin-left: 10px;
+}
+#input_row {
+  overflow: hidden;
+  width: 312px;
+  display: flex;
+  gap: 10px;
+}
+#tr_hov:hover #btn_td2 button {
+  transform: translateX(0);
+}
+#bas3__ {
+  position: relative;
+}
+#suggestions-list {
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.042);
+  width: 100%;
+  overflow-y: auto;
+  background-color: rgb(255, 255, 255);
+  z-index: 100;
+  display: flex;
+  /* flex-direction: column; */
+  animation: sugg 0.3s;
+  justify-content: start;
+  max-height: 100px;
+  flex-wrap: wrap;
+}
+#suggestions-list::-webkit-scrollbar {
+  width: 7px;
+  background-color: #7575751e;
+  border-radius: 20px;
+}
+#suggestions-list::-webkit-scrollbar-thumb {
+  background-color: #757575b2;
+  border-radius: 20px;
+}
+
+@keyframes sugg {
+  from {
+    height: 0;
+  }
+}
+#suggestions-list div {
+  height: 30px;
+  transition: all 0.3s;
+  background-color: rgba(131, 131, 133, 0.101);
+  font-size: 11px;
+  text-wrap: nowrap;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.581);
+  align-items: center;
+}
+#suggestions-list div:hover {
+  background-color: #cccccc9c;
+}

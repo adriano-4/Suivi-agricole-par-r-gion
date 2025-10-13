@@ -1,0 +1,130 @@
+:root {
+  --gris-clair: rgba(0, 0, 0, 0.088);
+  --vert-ppale: #4caf50;
+  --vert-fonce: #2e7d32;
+  --vert-clair: #81c784;
+  --marron: #8d6e63;
+  --bleu:#004b8d;
+  --bleu-clair:#004b8d99;
+}
+
+.navbar2 {
+  width: 100%;
+  height: 120px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  animation: navbar2 0.5s;
+  background-color: white;
+  z-index: 1000;
+  /*box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.164); */
+}
+@keyframes navbar2 {
+  from {
+    top: -80px;
+  }
+  to {
+    top: 0;
+  }
+}
+.navbar2 .navbar__logo2{
+      position: relative;
+  top: 10px;
+  left: 120px; 
+}
+
+.navbar2 .navbar__logo2 img {
+  width: 300px;
+
+}
+.navbar_droite2 {
+  color: black;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  right: 40px;
+}
+.navbar_droite2 #déco {
+  color: #0e0e0e99;
+  font-size: 20px;
+  outline: none;
+  height: 30px;
+  background-color: var(--gris-clair);
+  display: flex;
+  align-items: center;
+  transition: all 0.3s;
+  overflow: hidden;
+  padding-right: 20px;
+  transition: all 0.3s;
+  border: none;
+  outline: none;
+}
+.navbar_droite2 #déco .fa-sign-out-alt {
+  font-size: 13px;
+  position: relative;
+  width: 10px;
+  right: 10px;
+  transition: all 0.3s;
+  top: 0px;
+}
+.navbar_droite2 #déco span {
+  font-size: 11px;
+}
+.navbar_droite2 #déco:hover {
+  border: none;
+  outline: none;
+}
+.navbar_droite2 #déco:hover .fa-sign-out-alt {
+  transform: translateX(2px);
+}
+.navbar_droite2 p {
+  color: rgba(0, 0, 0, 0.597);
+}
+.navbar_droite2 p span {
+  font-size: 15px;
+  font-weight: 600;
+  color: black;
+}
+.navbar_droite2 button {
+  background-color: transparent;
+}
+
+li{
+  width: 150px;
+  height: 150px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px;
+  flex-direction: column;
+  color: var(--bleu);
+  box-shadow: 0 2px 5px #004b8d2d;
+  border-radius: 10px;
+}
+li i{
+  font-size: 30px;
+}
+li p{
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+
+#user_compte{
+  width: 100px;
+
+}
+#user_compte i{
+  font-size: 15px;
+  margin-right: 10px;
+  color: rgb(0, 119, 79);
+}
+#user_compte span{
+  font-size: 13px;
+  color: rgb(0, 119, 79);
+}

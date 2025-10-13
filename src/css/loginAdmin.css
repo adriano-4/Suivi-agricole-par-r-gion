@@ -1,0 +1,111 @@
+:root {
+  --vert-ppale: #4caf50;
+  --vert-fonce: #2e7d32;
+  --vert-clair: #81c784;
+  --marron: #8d6e63;
+}
+
+.centre {
+  width: 1000px;
+  height: 550px;
+  display: flex;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.123);
+  color: black;
+  background-image: url(../assets/fond_login.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.centre .centre1 {
+  min-width: 50%;
+  height: 100%;
+}
+
+#centre2 {
+  background-color: transparent;
+  position: relative;
+  left: 50%;
+}
+
+#centre2 h2 {
+  color: var(--vert-clair);
+  position: relative;
+  top: 35%;
+  font-size: 25px;
+}
+#eye {
+  position: absolute;
+  top: 235px;
+  right: 105px;
+  color: var(--vert-fonce);
+  cursor: pointer;
+  font-size: 12px;
+}
+#centre2 input,
+#centre2 select {
+  background-color: transparent;
+  width: 300px;
+  height: 35px;
+  position: relative;
+  top: 120px;
+  margin-top: 20px;
+  border: none;
+  color: black;
+  padding-left: 10px;
+  background-color: #4caf4f08;
+  border-radius: 10px;
+  border-bottom: 1px solid transparent;
+}
+#centre2 select {
+  width: 310px;
+  font-size: 12px;
+}
+#centre2 input:focus,
+#centre2 select:focus {
+  outline: none;
+  border-bottom: 1px solid var(--vert-clair);
+}
+#centre2 button {
+  transition: all 0.3s;
+  border-radius: 20px;
+  margin-top: 50px;
+  width: 240px;
+  height: 40px;
+  color: white;
+  background-color: rgba(17, 255, 0, 0.085);
+  color: var(--vert-fonce);
+  padding: 0;
+  padding-bottom: 3px;
+  cursor: pointer;
+  position: relative;
+  top: 90px;
+}
+#centre2 button i {
+  font-size: 13px;
+  position: relative;
+  left: 20px;
+}
+#centre2 input[type="button"]:hover {
+  width: 250px;
+}
+#centre2 form {
+  position: relative;
+  top: 120px;
+}
+
+#changer_log {
+  background-color: transparent;
+  color: #004b8d99;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  padding: 0;
+  border: 1px solid #004b8d82;
+  outline: none;
+  transition: all 0.3s;
+}
+#changer_log:hover {
+  color: var(--bleu-marine);
+  outline: none;
+  border: 1px solid var(--bleu-marine);
+}

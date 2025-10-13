@@ -1,0 +1,133 @@
+/* *{
+  margin: 0;
+  padding: 0;
+} */
+#ppale_resp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+}
+#affichagerespo {
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+#table-crud {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#entete {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  width: 100%;
+}
+#entete h2 {
+  font-size: 14px;
+  margin: 0;
+  color: var(--bleu);
+  margin-left: 30px;
+}
+#recherche__ {
+  padding-left: 10px;
+  font-size: 12px;
+  height: 25px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  background-color: rgba(128, 128, 128, 0.195);
+  color: rgba(0, 0, 0, 0.501);
+  margin-right: 10px;
+  /* width: 20px; */
+  /* transform: translateX(40px); */
+  display: none;
+  animation: recherche 0.5s;
+}
+@keyframes recherche {
+  from {
+    width: 20px;
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  to {
+    width: auto;
+    transform: translateX(0);
+  }
+}
+#entete button {
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  font-size: 12px;
+  transition: all 0.3s;
+}
+#table-crud table tr {
+  height: 50px;
+  color: rgba(0, 0, 0, 0.484);
+}
+#table-crud table tr td {
+  color: rgb(0, 0, 0);
+  border-bottom: 1px solid rgba(18, 0, 89, 0.186);
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s;
+  height: 50px;
+}
+#button_action {
+  display: flex;
+  /* gap: 10px; */
+  justify-content: center;
+  align-items: center;
+}
+
+#button_action button {
+  width: 30px;
+  height: 30px;
+  font-size: 11px;
+  background-color: rgba(3, 3, 111, 0.126);
+  color: var(--bleu);
+}
+#button_action button span {
+}
+#table-crud table {
+  width: 95%;
+  overflow: hidden;
+}
+#table-crud table th {
+  font-size: 13px;
+  background-color: white;
+  color: rgba(0, 0, 0, 0.679);
+  font-weight: normal;
+  /* background-color: var(--vert-clair);
+  border-bottom: 1px solid var(--vert-fonce); */
+  /* color: white; */
+}
+#aj {
+  margin-right: 30px;
+  width: fit-content;
+  height: 30px;
+  gap: 5px;
+  background-color: rgba(0, 128, 0, 0.111);
+  color: var(--vert-fonce);
+}
+#search {
+  margin-right: 10px;
+  width: 30px;
+  height: 30px;
+  background-color: rgba(128, 128, 128, 0.195);
+  color: rgba(0, 0, 0, 0.501);
+}
+td button {
+  color: black;
+}

@@ -1,0 +1,123 @@
+// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import Login from "../Pages/Login";
+// import Navigation from "../Pages/Navigation";
+// import Beneficiaire from "../Pages/Beneficiaire";
+// import Region from "../Pages/Region";
+// import Intrant from "../Pages/Intrant";
+// import Formation from "../Pages/Formation";
+// import Livraison from "../Pages/Livraison";
+// import PrivateRoute from "../Pages/PrivateRoute";
+// import Compte from "../Pages/Compte";
+// import Responsable from "../Pages/Responsable";
+
+// function AppRoutes() {
+//   return (
+//     <Router>
+//       <Routes>
+//         <Route path="/" element={<Login />} />
+//         <Route path="/navigation" element={<Navigation />} />
+//         <Route path="/beneficiaire" element={<Beneficiaire />} />
+//         <Route path="/intrant" element={<Intrant />} />
+//         <Route path="/livraison" element={<Livraison />} />
+//         <Route path="/formation" element={<Formation />} />
+//         <Route path="/region" element={<Region />} />
+//         <Route path="/compte" element={<Compte />} />
+//         <Route path="/responsable" element={<Responsable />} />
+//       </Routes>
+//     </Router>
+//   );
+// }
+
+// export default AppRoutes;
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "../Pages/Login";
+import Navigation from "../Pages/Navigation";
+import Beneficiaire from "../Pages/Beneficiaire";
+import Region from "../Pages/Region";
+import Intrant from "../Pages/Intrant";
+import Formation from "../Pages/Formation";
+import Livraison from "../Pages/Livraison";
+import PrivateRoute from "../Pages/PrivateRoute";
+import Compte from "../Pages/Compte";
+import Responsable from "../Pages/Responsable";
+
+function AppRoutes() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+
+        {/* Routes protégées */}
+        <Route
+          path="/navigation"
+          element={
+            <PrivateRoute>
+              <Navigation />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/beneficiaire"
+          element={
+            <PrivateRoute>
+              <Beneficiaire />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/intrant"
+          element={
+            <PrivateRoute>
+              <Intrant />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/livraison"
+          element={
+            <PrivateRoute>
+              <Livraison />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/formation"
+          element={
+            <PrivateRoute>
+              <Formation />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/region"
+          element={
+            <PrivateRoute>
+              <Region />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/compte"
+          element={
+            <PrivateRoute>
+              <Compte />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/responsable"
+          element={
+            <PrivateRoute>
+              <Responsable />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Redirection pour les routes inconnues */}
+        <Route path="*" element={<Login />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default AppRoutes;

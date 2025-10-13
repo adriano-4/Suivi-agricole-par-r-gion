@@ -1,0 +1,117 @@
+:root {
+  --gris-clair: rgba(0, 0, 0, 0.088);
+  --vert-ppale: #4caf50;
+  --vert-fonce: #2e7d32;
+  --vert-clair: #81c784;
+  --marron: #8d6e63;
+  --bleu: #004b8d;
+  --bleu-clair: #004b8d99;
+}
+
+.navbar {
+  width: 100%;
+  height: 80px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  animation: navbar 0.5s;
+  background-color: white;
+  z-index: 1000;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.116);
+}
+
+@keyframes navbar {
+  from {
+    height: 120px;
+  }
+  to {
+    height: 80px;
+  }
+}
+
+.navbar .navbar__logo {
+  position: relative;
+  top: 10px;
+  left: 120px;
+  transition: all 0.3s;
+}
+
+.navbar .navbar__logo img {
+  width: 300px;
+  scale: 0.7;
+  position: relative;
+  bottom: 25px;
+  right: 20px;
+  transition: all 0.3s;
+  animation: imge 0.3s;
+}
+@keyframes imge {
+  from {
+    scale: 1;
+    position: relative;
+    bottom: 0;
+    right: 0;
+  }
+  to {
+    scale: 0.7;
+    position: relative;
+    bottom: 25px;
+    right: 20px;
+  }
+}
+
+.navbar_droite {
+  color: black;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  right: 40px;
+}
+.navbar_droite #déco {
+  color: #0e0e0e99;
+  font-size: 20px;
+  outline: none;
+  height: 30px;
+  background-color: var(--gris-clair);
+  display: flex;
+  align-items: center;
+  transition: all 0.3s;
+  overflow: hidden;
+  padding-right: 20px;
+  transition: all 0.3s;
+  border: none;
+  outline: none;
+}
+.navbar_droite #déco .fa-home {
+  font-size: 13px;
+  position: relative;
+  width: 10px;
+  right: 10px;
+  transition: all 0.3s;
+  top: 0px;
+}
+.navbar_droite #déco span {
+  font-size: 11px;
+}
+.navbar_droite #déco:hover {
+  border: none;
+  outline: none;
+}
+.navbar_droite #déco:hover .fa-home {
+  transform: translateX(2px);
+}
+.navbar_droite p {
+  color: rgba(0, 0, 0, 0.597);
+}
+.navbar_droite p span {
+  font-size: 15px;
+  font-weight: 600;
+  color: black;
+}
+.navbar_droite button {
+  background-color: transparent;
+}
