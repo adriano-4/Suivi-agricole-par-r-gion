@@ -34,13 +34,24 @@ public class ApportBeneficiaireService {
                     ApportResponse dto = new ApportResponse();
                     dto.setId(apport.getIdApport());
                     dto.setTypeApport(apport.getTypeApport());
-                    dto.setQuantite(apport.getQuantite().doubleValue());
-                    dto.setIdUnite(apport.getUnite().getIdUnite());
-                    dto.setUniteMesure(apport.getUnite().getUniteMesure());
+
+                    dto.setQuantite(apport.getQuantite() != null ? apport.getQuantite().doubleValue() : null);
+
+                    if (apport.getUnite() != null) {
+                        dto.setIdUnite(apport.getUnite().getIdUnite());
+                        dto.setUniteMesure(apport.getUnite().getUniteMesure());
+                    } else {
+                        dto.setIdUnite(null);
+                        dto.setUniteMesure(null);
+                    }
+
                     return dto;
                 })
                 .toList();
     }
+
+
+
 
 
     public ApportBeneficiaire updateApport(Integer id, ApportUpdateRequest request) {

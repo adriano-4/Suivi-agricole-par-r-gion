@@ -3,6 +3,7 @@ package com.example.back.service;
 import com.example.back.dto.FormationCreateRequest;
 import com.example.back.model.*;
 import com.example.back.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,16 +49,10 @@ public class FormationService {
         Technicien tech = technicienRepo.findById(req.getIdTechnicien())
                 .orElseThrow(() -> new RuntimeException("Technicien non trouvé"));
 
-        // 2. Créer une entité Vulgarisation “vide” avec juste l’ID ou par défaut
         Vulgarisation vul = new Vulgarisation();
-        // Ici, tu peux décider soit de :
-        // a) créer une nouvelle Vulgarisation vide et la sauvegarder pour avoir un idVulgarisation
-        // b) ou si tu as déjà un idVulgarisation à passer, tu peux le charger
-        // Pour l’exemple je vais sauvegarder une vulgarisation vide :
 
         vul = vulgarisationRepo.save(vul);
 
-        // 3. Créer la Formation
         Formation formation = new Formation();
         formation.setAppartenance(appart);
         formation.setSuperviseur(sup);
@@ -81,4 +76,34 @@ public class FormationService {
 
         return formation;
     }
+
+    @Transactional
+    public Formation updateFormation(Integer idFormation, FormationCreateRequest req) {
+        System.out.println("✅ ID reçu pour updateFormation: " + idFormation);
+        System.out.println("✅ ID reçu pour updateFormation: " + req.getIdAppartenance());
+        System.out.println("✅ ID reçu pour updateFormation: " + req.getIdSuperviseur());
+        System.out.println("✅ ID reçu pour updateFormation: " + req.getIdTechnicien());
+
+        Formation existing = formationRepo.findById(idFormation)
+                .orElseThrow(() -> new RuntimeException("Formation introuvable avec l'id : " + idFormation));
+        Appartenance appart = appartenanceRepo.findById(req.getIdAppartenance())
+                .orElseThrow(() -> new RuntimeException("Appartenance non trouvée"));
+        Superviseur sup = superviseurRepo.findById(req.getIdSuperviseur())
+                .orElseThrow(() -> new RuntimeException("Superviseur non trouvé"));
+        Technicien tech = technicienRepo.findById(req.getIdTechnicien())
+                .orElseThrow(() -> new RuntimeException("Technicien non trouvé"));
+
+        existing.setAppartenance(appart);
+        existing.setSuperviseur(sup);
+        existing.setTechnicien(tech);
+        existing.setDateFormation(req.getDateFormation());
+        existing.setRemarque(req.getRemarque());
+
+        System.out.println("=== DEBUG FORMATION UPDATE ===");
+        System.out.println("idFormation reçu: " + idFormation);
+        System.out.println("Formation existante: " + existing.getIdFormation());
+
+        return formationRepo.save(existing);
+    }
+
 }

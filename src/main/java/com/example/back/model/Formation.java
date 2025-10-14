@@ -36,7 +36,6 @@ public class Formation {
     @Column(name = "remarque")
     private String remarque;
 
-    // Getters & Setters
     public Integer getIdFormation() {
         return idFormation;
     }
@@ -93,5 +92,4 @@ public class Formation {
         this.remarque = remarque;
     }
 
-//    j ai envie que lorsque j ajoute une nouvelle formation l utilisateur fournie l appartenance , le superviseur responsable et le technicien et ca ajoute dans la table vulgarisateur avec des donnee vides pour tous les info dans vulgarisateur appart l id_vulg et
 }

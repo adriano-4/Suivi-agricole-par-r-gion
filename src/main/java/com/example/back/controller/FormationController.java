@@ -1,5 +1,6 @@
 package com.example.back.controller;
 
+import com.example.back.dto.ActionUpdateRequest;
 import com.example.back.dto.FormationCreateRequest;
 import com.example.back.model.ActionHasFormation;
 import com.example.back.model.Formation;
@@ -8,6 +9,7 @@ import com.example.back.repository.ActionHasFormationRepository;
 import com.example.back.repository.FormationRepository;
 import com.example.back.service.ActionHasFormationService;
 import com.example.back.service.FormationService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,4 +52,20 @@ public class FormationController {
         List<ActionFormationProjection> actions = actionHasFormationService.getActionDetailsByFormationId(idFormation);
         return ResponseEntity.ok(actions);
     }
+
+    @PutMapping("/{idFormation}")
+    public ResponseEntity<Formation> updateFormation(@PathVariable Integer idFormation, @RequestBody FormationCreateRequest req) {
+        Formation updatedFormation = formationService.updateFormation(idFormation, req);
+        return ResponseEntity.ok(updatedFormation);
+    }
+
+    @PutMapping("/actions/{idAction}")
+    public ResponseEntity<ActionHasFormation> updateActionDate(
+            @PathVariable Integer idAction,
+            @RequestBody ActionUpdateRequest req
+    ) {
+        ActionHasFormation updatedAction = actionHasFormationService.updateActionDate(idAction, req.getDateAction());
+        return ResponseEntity.ok(updatedAction);
+    }
+
 }

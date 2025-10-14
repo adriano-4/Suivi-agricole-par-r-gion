@@ -8,9 +8,11 @@ import java.util.List;
 
 public interface ApportBeneficiaireRepository extends JpaRepository<ApportBeneficiaire, Integer> {
 
-    @Query("SELECT a FROM ApportBeneficiaire a " +
-            "JOIN FETCH a.unite u " +
-            "JOIN FETCH a.beneficiaire b " +
-            "WHERE b.id = :idBenef")
+    @Query("""
+    SELECT a FROM ApportBeneficiaire a
+    LEFT JOIN FETCH a.unite u
+    LEFT JOIN FETCH a.beneficiaire b
+    WHERE b.id = :idBenef
+""")
     List<ApportBeneficiaire> findByBeneficiaireId(@Param("idBenef") Integer idBenef);
 }
