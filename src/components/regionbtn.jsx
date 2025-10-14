@@ -21,9 +21,9 @@ function regionbtn({ region, setShowReg, setShowSupCrud }) {
           <i className="fa fa-trash-alt"></i>
         </div>
       </span>
-      <p>
+      {/* <p>
         plus d'info <i className="fa fa-arrow-right"></i>
-      </p>
+      </p> */}
     </button>
   );
 }

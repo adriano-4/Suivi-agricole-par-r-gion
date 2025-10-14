@@ -38,9 +38,10 @@ h2 span {
 .madareg2 {
   display: flex;
   flex-wrap: wrap;
-  height: 85%;
+  max-height: 85%;
+  /* background-color:red; */
   width: 90%;
-  justify-content: center;
+  justify-content: start;
   overflow: auto;
 }
 .madareg2::-webkit-scrollbar {
@@ -150,11 +151,11 @@ h2 span {
   justify-content: center;
   /* background-color: var(--vert-fonce); */
   /* color: rgb(255, 255, 255); */
- background-color: rgba(0, 128, 0, 0.111);
+  background-color: rgba(0, 128, 0, 0.111);
   color: var(--vert-fonce);
   /* font-weight: bold; */
   border: none;
-  outline: none; 
+  outline: none;
   transition: all 0.3s;
 }
 #disabled {

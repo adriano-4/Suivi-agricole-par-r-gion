@@ -1,7 +1,7 @@
 #btn_reg {
   width: 200px;
   margin: 10px;
-  height: 90px;
+  height: 50px;
   padding-left: 20px;
   display: flex;
   flex-direction: column;
@@ -10,10 +10,6 @@
   background: linear-gradient(120deg, white, rgba(128, 0, 0, 0.058));
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.066);
   padding-bottom: 0px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 50px;
   padding-top: 15px;
   color: rgba(0, 0, 0, 0.595);
   transition: all 0.3s;
@@ -26,7 +22,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 13px;
 }
 #btn_reg p {
   /*color: rgba(255, 255, 255, 0.562);*/
@@ -69,8 +65,8 @@
   left: 6px;
   bottom: 5px;
 }
-#sup_reg .fa-trash-alt{
-  transform: translate(-2px,-1px);
+#sup_reg .fa-trash-alt {
+  transform: translate(-2px, -1px);
 }
 
 #sup_reg:hover {

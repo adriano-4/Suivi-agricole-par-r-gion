@@ -1,8 +1,7 @@
 import api from "./api";
 
-const API_URL = "/unites"; // endpoint backend pour toutes les unités
+const API_URL = "/unites";
 
-// Récupérer toutes les unités
 export const getAllUnites = async () => {
   try {
     const response = await api.get(API_URL);

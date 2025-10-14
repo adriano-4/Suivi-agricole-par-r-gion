@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "../css/beneficiaire.css";
 import { getApportsByBeneficiaire, updateApport } from "../service/apport";
 import { getAllUnites } from "../service/unite";
+import Alert_message from "./alert_message";
 
 function Apport({ setShowApport, idBenef }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -14,7 +15,14 @@ function Apport({ setShowApport, idBenef }) {
     uniteMesure: "",
   });
   const [initialFormData, setInitialFormData] = useState({});
+  const [alert, setAlert] = useState({ visible: false, message: "" });
 
+  const showAlert = (message) => {
+    setAlert({ visible: true, message });
+    setTimeout(() => setAlert({ visible: false, message: "" }), 5000);
+  };
+
+  console.log(idBenef);
   useEffect(() => {
     const fetchUnites = async () => {
       try {
@@ -200,6 +208,7 @@ function Apport({ setShowApport, idBenef }) {
         }
 
         console.log("✅ Apport mis à jour !");
+        showAlert("Apport mis à jour !");
       } catch (error) {
         console.error("Erreur lors de la mise à jour :", error);
       }
@@ -296,6 +305,11 @@ function Apport({ setShowApport, idBenef }) {
           </section>
         </div>
       </div>
+      <Alert_message
+        visible={alert.visible}
+        message={alert.message}
+        onClose={() => setAlert({ ...alert, visible: false })}
+      />
     </div>
   );
 }

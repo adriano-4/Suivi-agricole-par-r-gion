@@ -310,6 +310,15 @@ function Beneficiaire() {
                     <button id="sup">
                       <i className="fa fa-trash-alt"></i>
                     </button>
+                    <button
+                      id="part"
+                      onClick={() => {
+                        // setSelectedFormation(item);
+                        // setShowPartager(true);
+                      }}
+                    >
+                      <i className="fa fa-paperclip"></i>
+                    </button>
                   </td>
                 </tr>
               ))

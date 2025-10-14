@@ -72,10 +72,10 @@
   right: 40px;
 }
 .navbar_droite #déco {
-  color: #0e0e0e99;
   font-size: 20px;
   outline: none;
   height: 30px;
+  color: #0e0e0e99;
   background-color: var(--gris-clair);
   display: flex;
   align-items: center;

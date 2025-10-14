@@ -203,6 +203,7 @@ import Formation_date from "../components/formation_date";
 import { useState, useEffect } from "react";
 import Vulgarisation from "../components/vulgarisation";
 import Ajout_formation from "../components/ajout_formation";
+import Partager from "../components/partager";
 
 import {
   getAllFormationsView,
@@ -218,6 +219,7 @@ function Formation() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [formations, setFormations] = useState([]);
+  const [showPartager, setShowPartager] = useState(false);
 
   const refreshFormations = async () => {
     try {
@@ -227,6 +229,11 @@ function Formation() {
     } catch (error) {
       console.error("Erreur lors du rafraîchissement :", error);
     }
+  };
+
+  const refreshData = () => {
+    // setRefreshKey((prev) => prev + 1);
+    refreshFormations();
   };
 
   useEffect(() => {
@@ -361,7 +368,7 @@ function Formation() {
                       }}
                     >
                       <span>Vulgarisation</span>
-                      <i className="fa fa-info"></i>
+                      {/* <i className="fa fa-suitcase"></i> */}
                     </button>
                     <button
                       id="Apport"
@@ -371,11 +378,23 @@ function Formation() {
                       }}
                     >
                       <span>Date actions</span>
-                      <i className="fa fa-info"></i>
+                      {/* <i className="fas fa-calendar-alt"></i> */}
                     </button>
                     <button id="sup">
                       <i className="fa fa-trash-alt"></i>
                     </button>
+                    <button
+                      id="part"
+                      onClick={() => {
+                        setSelectedFormation(item);
+                        setShowPartager(true);
+                      }}
+                    >
+                      <i className="fa fa-paperclip"></i>
+                    </button>
+                    {/* <button id="part">
+                      <i className="fa fa-save"></i>
+                    </button> */}
                   </td>
                 </tr>
               ))
@@ -394,6 +413,7 @@ function Formation() {
         <Vulgarisation
           setShowVulg={setShowVulg}
           formation={selectedFormation}
+          onUpdateSuccess={refreshData}
         />
       )}
 
@@ -408,6 +428,13 @@ function Formation() {
         <Ajout_formation
           setShowAjout_form={setShowAjoutForm}
           refreshFormations={refreshFormations}
+        />
+      )}
+
+      {showPartager && (
+        <Partager
+          formation={selectedFormation}
+          setShowPartager={setShowPartager}
         />
       )}
     </div>

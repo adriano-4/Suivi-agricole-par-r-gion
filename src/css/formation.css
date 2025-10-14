@@ -1,6 +1,5 @@
-
-.div_rond{
-     width: 90%;
+.div_rond {
+  width: 90%;
   height: 40px;
   border-radius: 20px;
   display: flex;
@@ -15,7 +14,7 @@
   position: relative;
   top: 30px;
   padding-top: 5px;
-  padding-bottom: 5px;  
+  padding-bottom: 5px;
 }
 .div_rond p {
   margin-left: 20px;
@@ -29,15 +28,24 @@
 .div_rond:hover {
   background-color: rgba(0, 0, 141, 0.151);
 }
-#bas_droite_formation{
-    position: relative;
-    top: 20px;
+#bas_droite_formation {
+  position: relative;
+  top: 20px;
 }
-.info_perso2_formation{
-    height: 600px;
+.info_perso2_formation {
+  height: 600px;
 }
 
-#bas_droite_info_sup{
+#bas_droite_info_sup {
   position: relative;
   bottom: 35px;
+}
+
+#part {
+  color: #0e0e0e99;
+  background-color: var(--gris-clair);
+  transition: all 0.3s;
+}
+#part:hover {
+  background-color: rgba(128, 128, 128, 0.273);
 }

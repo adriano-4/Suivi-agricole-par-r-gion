@@ -1,0 +1,86 @@
+.partagercomp {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.274);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  color: black;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+}
+.partagercomp .part1 {
+  width: 600px;
+  height: auto;
+  background-color: white;
+  border-radius: 10px;
+  flex-direction: column;
+  animation: cont1 0.2s;
+  padding-bottom: 30px;
+}
+#p_part {
+  font-size: 12px;
+  margin-bottom: 20px;
+
+  color: rgba(0, 0, 0, 0.46);
+  margin-top: 10px;
+}
+#h_part {
+  font-size: 14px;
+  color: var(--bleu);
+}
+form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+form div {
+  /* background-color: red; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* margin-bottom: 10px; */
+}
+form div input[type="email"] {
+  width: 350px;
+  height: 30px;
+  padding-left: 10px;
+  margin-bottom: 20px;
+  background-color: var(--gris-clair);
+  border: none;
+  font-size: 12px;
+  outline: none;
+  color: black;
+}
+#choix {
+  display: flex;
+  gap: 30px;
+}
+#choix div {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+#choix div input {
+  position: relative;
+  top: 2px;
+  background-color: rgba(128, 128, 128, 0.26);
+}
+#choix div label {
+  color: rgba(0, 0, 0, 0.762);
+  font-size: 13px;
+  font-weight: 600;
+}
+.disabled_envoyer {
+  opacity: 0.4;
+  border: none;
+  outline: none;
+}
+.disabled_envoyer:hover {
+  border: none;
+  outline: none;
+}
