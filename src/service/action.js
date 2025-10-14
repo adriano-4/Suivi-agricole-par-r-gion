@@ -10,9 +10,12 @@ export const getActions = async (idFormation) => {
   }
 };
 
-export const updateActionDate = async (idAction, data) => {
+export const updateActionDate = async (idAction, idFormation, data) => {
   try {
-    const response = await api.put(`/formations/actions/${idAction}`, data);
+    const response = await api.put(
+      `/formations/actions/${idAction}/formation/${idFormation}`,
+      data
+    );
     return response.data;
   } catch (error) {
     console.error("Erreur lors de la mise à jour de l'action :", error);

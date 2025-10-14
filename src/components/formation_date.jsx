@@ -703,14 +703,16 @@ function formation_date({ setShowFormation, formation, onUpdateSuccess }) {
 
       await updateFormation(formation.idFormation, formationData);
 
-      // Mise à jour des dates des actions
       const actionUpdates = actions.map(async (action) => {
         if (action.dateAction) {
           const actionData = {
-            idFormation: formation.idFormation,
             dateAction: action.dateAction,
           };
-          await updateActionDate(action.idAction, actionData);
+          await updateActionDate(
+            action.idAction,
+            formation.idFormation,
+            actionData
+          );
         }
       });
 

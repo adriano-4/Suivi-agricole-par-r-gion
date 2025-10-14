@@ -24,7 +24,6 @@
 #p_part {
   font-size: 12px;
   margin-bottom: 20px;
-
   color: rgba(0, 0, 0, 0.46);
   margin-top: 10px;
 }
@@ -32,20 +31,19 @@
   font-size: 14px;
   color: var(--bleu);
 }
-form {
+#form_part {
   display: flex;
   align-items: center;
   flex-direction: column;
   margin-bottom: 20px;
 }
-form div {
-  /* background-color: red; */
+#form_part div {
   display: flex;
   align-items: center;
   justify-content: space-between;
   /* margin-bottom: 10px; */
 }
-form div input[type="email"] {
+#form_part div input[type="email"] {
   width: 350px;
   height: 30px;
   padding-left: 10px;
