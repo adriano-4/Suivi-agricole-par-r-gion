@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ActionHasFormationService {
@@ -22,18 +23,16 @@ public class ActionHasFormationService {
     }
 
     @Transactional
-    public ActionHasFormation updateActionDate(Integer idAction, LocalDate newDate) {
-        List<ActionHasFormation> actions = actionHasFormationRepository.findAll()
-                .stream()
-                .filter(af -> af.getId().getIdAction().equals(idAction))
-                .toList();
+    public ActionHasFormation updateActionDate(Integer idAction, Integer idFormation, LocalDate newDate) {
+        Optional<ActionHasFormation> optionalAction = actionHasFormationRepository
+                .findById_IdActionAndId_IdFormation(idAction, idFormation);
 
-        if (actions.isEmpty()) {
-            throw new EntityNotFoundException("Action non trouvée avec idAction " + idAction);
-        }
+        ActionHasFormation action = optionalAction
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Action non trouvée avec idAction " + idAction + " et idFormation " + idFormation));
 
-        ActionHasFormation action = actions.get(0);
         action.setDateAction(newDate);
         return actionHasFormationRepository.save(action);
     }
+
 }

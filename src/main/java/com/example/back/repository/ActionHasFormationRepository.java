@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ActionHasFormationRepository extends JpaRepository<ActionHasFormation, ActionHasFormationId> {
 
@@ -16,5 +17,7 @@ public interface ActionHasFormationRepository extends JpaRepository<ActionHasFor
             "JOIN af.action a " +
             "WHERE f.idFormation = :idFormation")
     List<ActionFormationProjection> getActionDetailsByFormation(@Param("idFormation") Integer idFormation);
+
+    Optional<ActionHasFormation> findById_IdActionAndId_IdFormation(Integer idAction, Integer idFormation);
 
 }
