@@ -69,6 +69,4 @@ public class FormationController {
                 .updateActionDate(idAction, idFormation, req.getDateAction());
         return ResponseEntity.ok(updatedAction);
     }
-
-
 }
