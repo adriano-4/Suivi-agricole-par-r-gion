@@ -18,6 +18,11 @@ import {
   deleteTechnicien,
   deleteResponsable,
 } from "../service/responsable";
+import {
+  updateSuperviseur,
+  updateTechnicien,
+  updateResponsable,
+} from "../service/responsable";
 
 function Responsable() {
   const [activeRole, setActiveRole] = useState("superviseur");
@@ -30,6 +35,12 @@ function Responsable() {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [newEntry, setNewEntry] = useState({
+    nom: "",
+    prenom: "",
+    contact: "",
+  });
+  const [editingId, setEditingId] = useState(null);
+  const [editEntry, setEditEntry] = useState({
     nom: "",
     prenom: "",
     contact: "",
@@ -108,6 +119,7 @@ function Responsable() {
     setIsAdding(false);
   };
 
+  //code na ajout
   const handleValidate = async () => {
     try {
       let payload = {};
@@ -151,6 +163,8 @@ function Responsable() {
       console.error("Erreur lors de l'ajout :", error);
     }
   };
+
+  //code na suppression
   const handleDeleteClick = (item) => {
     setEntryToDelete(item);
     setShowDeleteModal(true);
@@ -189,6 +203,65 @@ function Responsable() {
     } catch (error) {
       console.error("Erreur lors de la suppression :", error);
     }
+  };
+
+  //code na modification
+  const handleEditClick = (item) => {
+    const nom = item.nomSup || item.nomTech || item.nomResp || "";
+    const prenom = item.prenomSup || item.prenomTech || item.prenomResp || "";
+    const contact =
+      item.contactSup || item.contactTech || item.contactResp || "";
+    setEditingId(item.idSup || item.idTech || item.idResp);
+    setEditEntry({ nom, prenom, contact });
+  };
+  const handleEditValidate = async () => {
+    try {
+      let updatedItem;
+      if (activeRole === "superviseur") {
+        const payload = {
+          nomSup: editEntry.nom,
+          prenomSup: editEntry.prenom,
+          contactSup: editEntry.contact,
+        };
+        updatedItem = await updateSuperviseur(editingId, payload);
+      } else if (activeRole === "technicien") {
+        const payload = {
+          nomTech: editEntry.nom,
+          prenomTech: editEntry.prenom,
+          contactTech: editEntry.contact,
+        };
+        updatedItem = await updateTechnicien(editingId, payload);
+      } else if (activeRole === "responsable") {
+        const payload = {
+          nomResp: editEntry.nom,
+          prenomResp: editEntry.prenom,
+          contactResp: editEntry.contact,
+        };
+        updatedItem = await updateResponsable(editingId, payload);
+      }
+      const updatedData = data.map((item) => {
+        const id = item.idSup || item.idTech || item.idResp;
+        if (id === editingId) {
+          return { ...item, ...updatedItem.data };
+        }
+        return item;
+      });
+
+      setData(updatedData);
+      setFilteredData(updatedData);
+      setEditingId(null);
+      showSuccessMessage(
+        `${
+          activeRole.charAt(0).toUpperCase() + activeRole.slice(1)
+        } modifié avec succès.`
+      );
+    } catch (error) {
+      console.error("Erreur lors de la modification :", error);
+    }
+  };
+
+  const handleEditCancel = () => {
+    setEditingId(null);
   };
 
   return (
@@ -310,6 +383,7 @@ function Responsable() {
               )}
               {filteredData.length > 0 ? (
                 filteredData.map((item) => {
+                  const id = item.idSup || item.idTech || item.idResp;
                   const nom =
                     item.nomSup || item.nomTech || item.nomResp || "-";
                   const prenom =
@@ -319,14 +393,79 @@ function Responsable() {
                     item.contactTech ||
                     item.contactResp ||
                     "-";
-
+                  if (editingId === id) {
+                    return (
+                      <tr key={id}>
+                        <td>
+                          <input
+                            id="ajout_resp"
+                            type="text"
+                            value={editEntry.nom}
+                            onChange={(e) =>
+                              setEditEntry({
+                                ...editEntry,
+                                nom: e.target.value,
+                              })
+                            }
+                          />
+                        </td>
+                        <td>
+                          <input
+                            id="ajout_resp"
+                            type="text"
+                            value={editEntry.prenom}
+                            onChange={(e) =>
+                              setEditEntry({
+                                ...editEntry,
+                                prenom: e.target.value,
+                              })
+                            }
+                          />
+                        </td>
+                        <td>
+                          <input
+                            id="ajout_resp"
+                            type="text"
+                            value={editEntry.contact}
+                            onChange={(e) =>
+                              setEditEntry({
+                                ...editEntry,
+                                contact: e.target.value,
+                              })
+                            }
+                            maxLength={10}
+                            onInput={(e) =>
+                              (e.target.value = e.target.value.replace(
+                                /\D/g,
+                                ""
+                              ))
+                            }
+                          />
+                        </td>
+                        <td id="btn_td3">
+                          <button
+                            id="valid_btn_resp"
+                            onClick={handleEditValidate}
+                          >
+                            <i className="fa fa-check"></i>
+                          </button>
+                          <button
+                            id="annuler-btn-resp"
+                            onClick={handleEditCancel}
+                          >
+                            <i className="fa fa-times"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  }
                   return (
-                    <tr key={item.idSup || item.idTech || item.idResp}>
-                      <td>{nom}</td>
+                    <tr key={id}>
+                      <td>{nom.toUpperCase()}</td>
                       <td>{prenom}</td>
                       <td>{contact}</td>
                       <td id="btn_td3">
-                        <button id="mod">
+                        <button id="mod" onClick={() => handleEditClick(item)}>
                           <i className="fa fa-pen"></i>
                         </button>
                         <button
