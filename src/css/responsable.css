@@ -6,16 +6,63 @@
   position: absolute;
   top: 0;
   left: 0;
-  display: flex;
-  justify-content: center;
-  padding-top: 100px;
+  padding-top: 110px;
 }
 #affichagerespo {
   width: 100vw;
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 20px;
+  justify-content: start;
+  position: relative;
+  margin-bottom: 20px;
+  gap: 0;
+}
+#affichagerespo button {
+  width: 200px;
+  height: auto;
+  padding: 0;
+  box-shadow: 0 0 5px rgba(0, 0, 114, 0.141);
+  margin-left: 40px;
+  background-color: white;
+  color: rgba(0, 0, 0, 0.359);
+
+  /* color: var(--bleu); */
+  overflow: hidden;
+  border: none;
+  outline: none;
+}
+#affichagerespo button .tete_resp {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+  margin: 15px;
+}
+#affichagerespo button:hover {
+  border: none;
+  outline: none;
+}
+#affichagerespo button .tete_resp i {
+  font-size: 20px;
+}
+#affichagerespo button .tete_resp span {
+  font-size: 12px;
+  text-wrap: nowrap;
+}
+#affichagerespo button .bas_resp {
+  width: 100%;
+  height: 50px;
+  background-color: rgba(128, 128, 128, 0.136);
+  padding-top: 1px;
+  padding-bottom: 5px;
+}
+#affichagerespo button .bas_resp p {
+  font-size: 12px;
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 #table-crud {
   width: 100%;
@@ -130,4 +177,106 @@
 }
 td button {
   color: black;
+}
+
+#tableau_resp {
+  width: 100%;
+  height: 33vw;
+  /* background-color: red; */
+}
+#tableau_resp .entete_responsable {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 20px;
+  height: 60px;
+}
+
+#tableau_resp .entete_responsable input {
+  margin-left: 40px;
+  width: 260px;
+  height: 35px;
+  border-radius: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: rgba(0, 0, 0, 0.085);
+  border: none;
+  font-size: 13px;
+}
+
+#tableau_resp .entete_responsable button {
+  border-radius: 20px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  background-color: rgba(0, 128, 4, 0.111);
+  color: var(--vert-fonce);
+  gap: 6px;
+  transition: all 0.3s;
+  border: none;
+  outline: none;
+}
+#tableau_resp .entete_responsable button:hover {
+  background-color: rgba(0, 128, 0, 0.21);
+}
+#tableau_resp .entete_responsable button span {
+  position: relative;
+  bottom: 1px;
+}
+#tableau_resp .entete_responsable input:focus {
+  border: none;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.215);
+  color: black;
+}
+#tableau_resp .tableau_responsable__ {
+  display: flex;
+  justify-content: center;
+}
+#tableau_resp .tableau_responsable__ table {
+  width: 95%;
+}
+#tableau_resp .tableau_responsable__ table th {
+  width: 250px;
+}
+#btn_td3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+#affichagerespo button.active {
+  color: var(--bleu);
+}
+#ajout_resp {
+  background-color: rgba(0, 0, 0, 0.082);
+  border: none;
+  color: black;
+  padding-left: 20px;
+  width: 250px;
+  font-size: 12px;
+  height: 30px;
+}
+#ajout_resp:focus {
+  border-bottom: 1px solid var(--bleu);
+  outline: none;
+}
+#valid_btn_resp {
+  background-color: var(--vert-ppale);
+  width: 33px;
+  font-size: 10px;
+  height: 33px;
+  margin: 10px;
+  position: relative;
+  color: white;
+}
+#annuler-btn-resp {
+  background-color: rgba(0, 0, 0, 0.134);
+  color: rgb(0, 0, 0);
+  width: 33px;
+  font-size: 13px;
+  height: 33px;
 }

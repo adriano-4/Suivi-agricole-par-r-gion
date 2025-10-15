@@ -751,7 +751,6 @@ function formation_date({ setShowFormation, formation, onUpdateSuccess }) {
       idTech: formation?.idTech || "",
     });
 
-    // Recharger les actions pour réinitialiser les dates
     if (formation?.idFormation) {
       getActions(formation.idFormation)
         .then((data) => setActions(data))

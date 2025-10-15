@@ -238,7 +238,7 @@ function Beneficiaire() {
       <NavBar />
       <div id="recherche">
         <div className="gauche">
-          <h2>Liste des bénéficiaires</h2>
+          <h2>Bénéficiaires</h2>
         </div>
         <div className="option">
           <input

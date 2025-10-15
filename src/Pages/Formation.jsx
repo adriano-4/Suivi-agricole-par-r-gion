@@ -304,7 +304,7 @@ function Formation() {
       <NavBar />
       <div id="recherche">
         <div className="gauche">
-          <h2>Liste des formations</h2>
+          <h2>Formations</h2>
         </div>
         <div className="option">
           <input

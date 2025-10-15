@@ -171,7 +171,13 @@ h2 span {
   height: 30px;
   position: relative;
   left: 15px;
+  padding-left: 10px;
   margin-top: 10px;
+  font-size: 12px;
+}
+#ajout_inp:focus {
+  border-bottom: 1px solid var(--bleu);
+  outline: none;
 }
 
 .bas3 div .haut button:hover {
