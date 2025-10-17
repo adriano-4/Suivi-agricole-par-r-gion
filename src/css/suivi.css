@@ -1,0 +1,156 @@
+#ppale_suivi {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  /* background-color: rgb(230, 230, 230); */
+  display: flex;
+}
+.gauche_suivi {
+  /* background-color: blue; */
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.gauche_suivi h2 {
+  position: relative;
+  top: 60px;
+  left: 50px;
+  font-size: 16px;
+  /* color: var(--vert-fonce); */
+  color: rgba(0, 0, 0, 0.364);
+}
+.donnee__ {
+  position: relative;
+  top: 60px;
+  /* background-color: red; */
+  width: 90%;
+  max-height: 80%;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: center;
+}
+.droite_suivi {
+  width: 60%;
+  height: 100%;
+  padding-top: 60px;
+  background-color: rgb(250, 250, 250);
+}
+
+#donnee {
+  width: 250px;
+  /* height: 200px; */
+  height: 35px;
+  overflow: hidden;
+  background-color: white;
+  color: black;
+  display: flex;
+  border-radius: 5px;
+  flex-direction: column;
+  padding-bottom: 20px;
+  margin: 10px;
+  /* border: 2px solid rgba(0, 0, 114, 0.397);
+  box-shadow: 0 0 2px rgba(0, 0, 114, 0.373); */
+  border: 1px solid rgba(128, 128, 128, 0.474);
+  box-shadow: 0 0 5px rgba(128, 128, 128, 0.334);
+  transition: all 0.3s;
+}
+#donnee:hover {
+  height: 200px;
+}
+.donnee_haut {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.donnee_haut section {
+  display: flex;
+  align-items: center;
+}
+.donnee_haut h4 {
+  margin-left: 20px;
+  font-size: 13px;
+  /* color: rgba(0, 0, 0, 0.732); */
+  color: var(--bleu);
+}
+.donnee_haut i {
+  color: var(--bleu);
+  margin-left: 15px;
+  font-size: 13px;
+  background-color: rgba(98, 98, 244, 0.123);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+.donnee_bas {
+  display: flex;
+  flex-direction: column;
+}
+.donnee_bas div {
+  height: 30px;
+  /* margin-bottom: 10px; */
+  width: 250px;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+.donnee_bas div p {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.652);
+  margin-left: 20px;
+}
+.donnee_bas div span {
+  font-size: 13px;
+  font-weight: 600;
+  margin-right: 18px;
+}
+
+.stat-zero {
+  color: red;
+}
+.color {
+  width: 10px;
+  height: 10px;
+  /* background-color: gray; */
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+#graphe {
+  width: 400px;
+  height: 300px;
+  margin: 25px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 5px rgba(128, 128, 128, 0.178);
+}
+
+.gauche_graphe {
+  width: 100%;
+  height: 20%;
+  background-color: blue;
+}
+.droite_suivi h2 {
+  margin-left: 25px;
+  font-size: 16px;
+}
+.bas_graphe {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#pie {
+  scale: 0.8;
+}

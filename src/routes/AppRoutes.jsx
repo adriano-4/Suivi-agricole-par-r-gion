@@ -40,14 +40,13 @@ import Livraison from "../Pages/Livraison";
 import PrivateRoute from "../Pages/PrivateRoute";
 import Compte from "../Pages/Compte";
 import Responsable from "../Pages/Responsable";
+import Suivi from "../Pages/Suivi";
 
 function AppRoutes() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-
-        {/* Routes protégées */}
         <Route
           path="/navigation"
           element={
@@ -112,8 +111,14 @@ function AppRoutes() {
             </PrivateRoute>
           }
         />
-
-        {/* Redirection pour les routes inconnues */}
+        <Route
+          path="/suivi"
+          element={
+            <PrivateRoute>
+              <Suivi />
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<Login />} />
       </Routes>
     </Router>

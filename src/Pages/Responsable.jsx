@@ -313,7 +313,9 @@ function Responsable() {
         <div className="entete_responsable">
           <input
             type="text"
-            placeholder="Recherche ..."
+            placeholder={`Recherche de ${
+              activeRole.charAt(0).toUpperCase() + activeRole.slice(1)
+            } ...`}
             id="recherche_benef"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}

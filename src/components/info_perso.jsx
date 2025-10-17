@@ -37,6 +37,8 @@ function Info_perso({ setShowInfo, beneficiaire }) {
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [appartenances, setAppartenances] = useState([]);
+  const anneePrecedente = new Date().getFullYear() - 1;
+  const anneeActuelle = new Date().getFullYear();
 
   useEffect(() => {
     if (alertVisible) {
@@ -654,7 +656,7 @@ function Info_perso({ setShowInfo, beneficiaire }) {
 
           {/* Partie campagne */}
           <div className="bas_droite">
-            <h3>Campagne Précédente</h3>
+            <h3>Campagne Précédente ({anneePrecedente})</h3>
             <div>
               <p>Superficie Totale</p>
               {isEditing ? (
@@ -698,7 +700,7 @@ function Info_perso({ setShowInfo, beneficiaire }) {
               )}
             </div>
 
-            <h3>Campagne Actuelle</h3>
+            <h3>Campagne Actuelle ({anneeActuelle})</h3>
             <div>
               <p>Superficie Totale</p>
               {isEditing ? (

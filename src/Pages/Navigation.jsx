@@ -41,6 +41,7 @@ function Navigation() {
                 icon="fa-user-tie"
                 label="Responsables"
               />
+              <NavItem to="/suivi" icon="fa-chart-line" label="Suivi" />
             </>
           )}
         </ul>

@@ -4,8 +4,8 @@
   --vert-fonce: #2e7d32;
   --vert-clair: #81c784;
   --marron: #8d6e63;
-  --bleu:#004b8d;
-  --bleu-clair:#004b8d99;
+  --bleu: #004b8d;
+  --bleu-clair: #004b8d99;
 }
 
 .navbar2 {
@@ -29,15 +29,14 @@
     top: 0;
   }
 }
-.navbar2 .navbar__logo2{
-      position: relative;
+.navbar2 .navbar__logo2 {
+  position: relative;
   top: 10px;
-  left: 120px; 
+  left: 120px;
 }
 
 .navbar2 .navbar__logo2 img {
   width: 300px;
-
 }
 .navbar_droite2 {
   color: black;
@@ -93,7 +92,7 @@
   background-color: transparent;
 }
 
-li{
+li {
   width: 150px;
   height: 150px;
   padding: 0;
@@ -106,25 +105,32 @@ li{
   box-shadow: 0 2px 5px #004b8d2d;
   border-radius: 10px;
 }
-li i{
+li i {
   font-size: 30px;
 }
-li p{
+li p {
   font-size: 12px;
   opacity: 0.7;
 }
 
-
-#user_compte{
+#user_compte {
   width: 100px;
-
+  display: flex;
+  align-items: center;
 }
-#user_compte i{
+#user_compte i {
   font-size: 15px;
   margin-right: 10px;
   color: rgb(0, 119, 79);
+  /* background-color: rgba(0, 119, 79, 0.115);
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center; */
 }
-#user_compte span{
+#user_compte span {
   font-size: 13px;
   color: rgb(0, 119, 79);
 }
