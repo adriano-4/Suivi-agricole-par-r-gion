@@ -41,9 +41,7 @@ public class AppartenanceService {
     public List<Appartenance> getByFokontanyId(Integer fokontanyId) {
         return appartenanceRepo.findByFokontany_IdFok(fokontanyId);
     }
-
-
-
+    
     public Appartenance saveAppartenance(Integer fokontanyId, Appartenance appartenance) {
         Fokontany fok = fokontanyRepository.findById(fokontanyId)
                 .orElseThrow(() -> new RuntimeException("Fokontany introuvable"));

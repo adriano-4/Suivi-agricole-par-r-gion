@@ -36,4 +36,17 @@ public class CommuneService {
     public void deleteCommune(Integer communeId) {
         communeRepository.deleteById(communeId);
     }
+    public Commune updateCommune(Integer communeId, Commune updatedCommune) {
+        Commune existingCommune = communeRepository.findById(communeId)
+                .orElseThrow(() -> new RuntimeException("Commune non trouvée avec l'id: " + communeId));
+
+        existingCommune.setNomComm(updatedCommune.getNomComm());
+
+        if (updatedCommune.getDistrict() != null) {
+            existingCommune.setDistrict(updatedCommune.getDistrict());
+        }
+
+        return communeRepository.save(existingCommune);
+    }
+
 }

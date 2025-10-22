@@ -34,4 +34,10 @@ public class DistrictController {
     public void deleteDistrict(@PathVariable Integer districtId) {
         districtService.deleteDistrict(districtId);
     }
+
+    @PutMapping("/{districtId}")
+    public District updateDistrict(@PathVariable Integer districtId, @RequestBody District updatedDistrict) {
+        return districtService.updateDistrict(districtId, updatedDistrict);
+    }
+
 }

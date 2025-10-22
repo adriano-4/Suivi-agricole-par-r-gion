@@ -15,6 +15,8 @@ public class StatView {
 
     private Long  nbr_beneficiaire;
     private Long  nbr_formation;
+    private BigDecimal rendement_precedente_total;
+    private BigDecimal rendement_precedente_moyen;
     private BigDecimal  superficie_precedente;
     private BigDecimal  superficie_actuelle;
     private BigDecimal  superficie_fsrp_actuelle;
@@ -28,6 +30,12 @@ public class StatView {
 
     public Long  getNbr_formation() { return nbr_formation; }
     public void setNbr_formation(Long  nbr_formation) { this.nbr_formation = nbr_formation; }
+
+    public BigDecimal getRendement_precedente_total() {return rendement_precedente_total;    }
+    public void setRendement_precedente_total(BigDecimal rendement_precedente_total){this.rendement_precedente_total = rendement_precedente_total; }
+
+    public BigDecimal getRendement_precedente_moyen() {return rendement_precedente_moyen;    }
+    public void setRendement_precedente_moyen(BigDecimal rendement_precedente_moyen){this.rendement_precedente_moyen = rendement_precedente_moyen; }
 
     public BigDecimal getSuperficie_precedente() { return superficie_precedente; }
     public void setSuperficie_precedente(BigDecimal  superficie_precedente) { this.superficie_precedente = superficie_precedente; }

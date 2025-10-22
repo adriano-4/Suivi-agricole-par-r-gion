@@ -41,4 +41,18 @@ public class DistrictService {
     public void deleteDistrict(Integer districtId) {
         districtRepository.deleteById(districtId);
     }
+
+    public District updateDistrict(Integer districtId, District updatedDistrict) {
+        District existingDistrict = districtRepository.findById(districtId)
+                .orElseThrow(() -> new RuntimeException("District non trouvé avec l'id: " + districtId));
+
+        existingDistrict.setNomDist(updatedDistrict.getNomDist());
+
+        if (updatedDistrict.getRegion() != null) {
+            existingDistrict.setRegion(updatedDistrict.getRegion());
+        }
+
+        return districtRepository.save(existingDistrict);
+    }
+
 }

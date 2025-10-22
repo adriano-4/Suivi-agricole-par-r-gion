@@ -34,4 +34,9 @@ public class CommuneController {
     public void deleteCommune(@PathVariable Integer communeId) {
         communeService.deleteCommune(communeId);
     }
+    @PutMapping("/{communeId}")
+    public Commune updateCommune(@PathVariable Integer communeId, @RequestBody Commune updatedCommune) {
+        return communeService.updateCommune(communeId, updatedCommune);
+    }
+
 }

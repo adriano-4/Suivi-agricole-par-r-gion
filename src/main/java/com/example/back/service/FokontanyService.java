@@ -36,4 +36,17 @@ public class FokontanyService {
     public void deleteFokontany(Integer fokontanyId) {
         fokontanyRepository.deleteById(fokontanyId);
     }
+
+    public Fokontany updateFokontany(Integer fokontanyId, Fokontany updatedFokontany) {
+        Fokontany existingFokontany = fokontanyRepository.findById(fokontanyId)
+                .orElseThrow(() -> new RuntimeException("Fokontany non trouvé avec l'id: " + fokontanyId));
+
+        existingFokontany.setNomFok(updatedFokontany.getNomFok());
+
+        if (updatedFokontany.getCommune() != null) {
+            existingFokontany.setCommune(updatedFokontany.getCommune());
+        }
+
+        return fokontanyRepository.save(existingFokontany);
+    }
 }

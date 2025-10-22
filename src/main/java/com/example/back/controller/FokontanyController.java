@@ -34,4 +34,10 @@ public class FokontanyController {
     public void deleteFokontany(@PathVariable Integer fokontanyId) {
         fokontanyService.deleteFokontany(fokontanyId);
     }
+
+    @PutMapping("/{fokontanyId}")
+    public Fokontany updateFokontany(@PathVariable Integer fokontanyId, @RequestBody Fokontany updatedFokontany) {
+        return fokontanyService.updateFokontany(fokontanyId, updatedFokontany);
+    }
+
 }
