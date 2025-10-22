@@ -48,3 +48,23 @@ export const getAppartenancesByRegion = async (regionId) => {
     throw error;
   }
 };
+
+export const updateAppartenance = async (appartenanceId, appartenanceData) => {
+  try {
+    const response = await api.put(
+      `/appartenances/${appartenanceId}`,
+      appartenanceData
+    );
+    console.log(
+      `Appartenance ${appartenanceId} mise à jour avec succès :`,
+      response.data
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      `Erreur lors de la mise à jour de l'appartenance ${appartenanceId} :`,
+      error
+    );
+    throw error;
+  }
+};

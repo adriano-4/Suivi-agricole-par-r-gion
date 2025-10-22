@@ -1,12 +1,25 @@
 import { useState, useEffect } from "react";
 import "../css/formation.css";
-import { getDistrictsByRegion, addDistrict } from "../service/district";
-import { getFokontanyByCommune, addFokontany } from "../service/fokontany";
-import { getCommunesByDistrict, addCommune } from "../service/commune";
+import {
+  getDistrictsByRegion,
+  addDistrict,
+  updateDistrict,
+} from "../service/district";
+import {
+  getFokontanyByCommune,
+  addFokontany,
+  updateFokontany,
+} from "../service/fokontany";
+import {
+  getCommunesByDistrict,
+  addCommune,
+  updateCommune,
+} from "../service/commune";
 import Editer_connexion from "./editer_connexion";
 import {
   getAppartenancesByFokontany,
   addAppartenance,
+  updateAppartenance,
 } from "../service/appartenance";
 
 function Region_comp({ region, setShowReg, regionId }) {
@@ -51,17 +64,16 @@ function Region_comp({ region, setShowReg, regionId }) {
     );
   };
 
-  // Fonctions de validation pour la modification
   const validateEditDistrict = async (id) => {
     try {
       const district = districts.find((d) => d.id === id);
       if (!district || !district.name.trim()) return;
 
-      // Ici, vous devrez appeler votre API pour mettre à jour le district
-      // await updateDistrict(id, { nomDist: district.name });
+      await updateDistrict(id, { nomDist: district.name });
 
+      const data = await getDistrictsByRegion(regionId);
       setDistricts(
-        districts.map((d) => (d.id === id ? { ...d, editing: false } : d))
+        data.map((d) => ({ id: d.idDist, name: d.nomDist, editing: false }))
       );
     } catch (err) {
       console.error("Erreur lors de la modification du district :", err);
@@ -73,11 +85,16 @@ function Region_comp({ region, setShowReg, regionId }) {
       const commune = communes.find((c) => c.id === id);
       if (!commune || !commune.name.trim()) return;
 
-      // Appeler l'API pour mettre à jour la commune
-      // await updateCommune(id, { nomComm: commune.name });
+      await updateCommune(id, { nomComm: commune.name });
 
+      const data = await getCommunesByDistrict(selectedDistrict.id);
       setCommunes(
-        communes.map((c) => (c.id === id ? { ...c, editing: false } : c))
+        data.map((c) => ({
+          id: c.idComm,
+          name: c.nomComm,
+          districtId: selectedDistrict.id,
+          editing: false,
+        }))
       );
     } catch (err) {
       console.error("Erreur lors de la modification de la commune :", err);
@@ -89,11 +106,16 @@ function Region_comp({ region, setShowReg, regionId }) {
       const fokontany = fokontanys.find((f) => f.id === id);
       if (!fokontany || !fokontany.name.trim()) return;
 
-      // Appeler l'API pour mettre à jour le fokontany
-      // await updateFokontany(id, { nomFok: fokontany.name });
+      await updateFokontany(id, { nomFok: fokontany.name });
 
+      const data = await getFokontanyByCommune(selectedCommune.id);
       setFokontanys(
-        fokontanys.map((f) => (f.id === id ? { ...f, editing: false } : f))
+        data.map((f) => ({
+          id: f.idFok,
+          name: f.nomFok,
+          communeId: selectedCommune.id,
+          editing: false,
+        }))
       );
     } catch (err) {
       console.error("Erreur lors de la modification du fokontany :", err);
@@ -105,14 +127,13 @@ function Region_comp({ region, setShowReg, regionId }) {
       const appartenance = appartenances.find((a) => a.idAppartenance === id);
       if (!appartenance || !appartenance.nomAppartenance.trim()) return;
 
-      // Appeler l'API pour mettre à jour l'appartenance
-      // await updateAppartenance(id, { nomAppartenance: appartenance.nomAppartenance });
+      await updateAppartenance(id, {
+        nomAppartenance: appartenance.nomAppartenance,
+        fokontany: { idFok: selectedFokontany.id },
+      });
 
-      setAppartenances(
-        appartenances.map((a) =>
-          a.idAppartenance === id ? { ...a, editing: false } : a
-        )
-      );
+      const data = await getAppartenancesByFokontany(selectedFokontany.id);
+      setAppartenances(data.map((a) => ({ ...a, editing: false })));
     } catch (err) {
       console.error("Erreur lors de la modification de l'appartenance :", err);
     }
@@ -680,7 +701,7 @@ function Region_comp({ region, setShowReg, regionId }) {
     const isEditing = a.editing;
 
     return (
-      <tr key={a.idAppartenance ?? a.id}>
+      <tr id="tr_hov" key={a.idAppartenance ?? a.id}>
         <td>
           {isEditing ? (
             <div id="input_row" className="input-row">

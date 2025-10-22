@@ -48,3 +48,20 @@ export const deleteFokontany = async (fokontanyId) => {
     throw error;
   }
 };
+
+export const updateFokontany = async (fokontanyId, fokontanyData) => {
+  try {
+    const response = await api.put(`/fokontany/${fokontanyId}`, fokontanyData);
+    console.log(
+      `Fokontany ${fokontanyId} mis à jour avec succès :`,
+      response.data
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      `Erreur lors de la mise à jour du fokontany ${fokontanyId} :`,
+      error
+    );
+    throw error;
+  }
+};

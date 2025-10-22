@@ -46,6 +46,12 @@
   background-color: var(--gris-clair);
   transition: all 0.3s;
 }
+
 #part:hover {
   background-color: rgba(128, 128, 128, 0.273);
+}
+
+#valider_ {
+  background-color: rgba(0, 128, 0, 0.111);
+  color: var(--vert-fonce);
 }

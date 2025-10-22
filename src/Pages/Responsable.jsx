@@ -319,6 +319,13 @@ function Responsable() {
             id="recherche_benef"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              boxShadow:
+                searchTerm && filteredData.length === 0
+                  ? "0 0 7px red"
+                  : "none",
+              border: "none",
+            }}
           />
           <button onClick={handleAddClick}>
             <span>Ajouter</span>

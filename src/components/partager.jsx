@@ -1,116 +1,22 @@
-// import { useState } from "react";
-// import { Link, useLocation } from "react-router-dom";
-// import "../css/partager.css";
-// import { useNavigate } from "react-router-dom";
-// import * as XLSX from "xlsx";
-// import { saveAs } from "file-saver";
-// import { sendMail } from "../service/mail";
-
-// function partager({ setShowPartager, formation }) {
-//   const navigate = useNavigate();
-
-//   console.log("📦 Données à exporter (formation) :");
-//   console.table(formation);
-//   const handleAnnuler = () => {
-//     setShowPartager(false);
-//   };
-
-//   const handleExporter = () => {
-//     try {
-//       const dataToExport = Array.isArray(formation) ? formation : [formation];
-
-//       const worksheet = XLSX.utils.json_to_sheet(dataToExport);
-
-//       const workbook = XLSX.utils.book_new();
-//       XLSX.utils.book_append_sheet(workbook, worksheet, "Formation");
-
-//       const excelBuffer = XLSX.write(workbook, {
-//         bookType: "xlsx",
-//         type: "array",
-//       });
-
-//       const file = new Blob([excelBuffer], {
-//         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-//       });
-//       saveAs(file, `formation_${Date.now()}.xlsx`);
-
-//       console.log("✅ Exportation réussie !");
-//     } catch (error) {
-//       console.error("❌ Erreur lors de l’exportation :", error);
-//     }
-//   };
-//   return (
-//     <div className="partagercomp">
-//       <div className="part1">
-//         <h5 id="h_part">Partager les informations sur cette formation</h5>
-//         <form id="form_part">
-//           <div>
-//             <input type="email" placeholder="Adresse e-mail du destinataire" />
-//           </div>
-//           <div id="choix">
-//             <div>
-//               <label htmlFor="vulgarisation">Vulgarisation</label>
-//               <input
-//                 type="checkbox"
-//                 name="vulgarisation"
-//                 id="vulgar"
-//                 defaultChecked={true}
-//               />
-//             </div>
-//             <div>
-//               <label htmlFor="actions">Date des actions</label>
-//               <input
-//                 type="checkbox"
-//                 name="actions"
-//                 id="act"
-//                 defaultChecked={true}
-//               />
-//             </div>
-//             <div>
-//               <label htmlFor="enreg">Enregister dans fichiers</label>
-//               <input
-//                 type="checkbox"
-//                 name="enreg"
-//                 id="enreg"
-//                 defaultChecked={true}
-//                 disabled
-//               />
-//             </div>
-//           </div>
-//         </form>
-//         <p id="p_part">
-//           Toutes les informations conçernant cette formation sera visible par le
-//           destinataire via mail{" "}
-//         </p>
-//         <div className="button">
-//           <button onClick={handleAnnuler} id="non2">
-//             Annuler
-//           </button>
-//           <button onClick={handleExporter}>Exporter</button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default partager;
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/partager.css";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { sendMail } from "../service/mail";
 import Alert_message from "../components/alert_message";
+import Partager_reg from "./partager_reg";
+import { getAllRegions } from "../service/region";
 
 function Partager({ setShowPartager, formation }) {
-  const navigate = useNavigate();
+  const [regions, setRegions] = useState([]);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [alert, setAlert] = useState({ visible: false, message: "" });
-
-  console.log("📦 Données à exporter (formation) :");
-  console.table(formation);
+  const [selectAll, setSelectAll] = useState(false);
+  const [selectEmail, setSelectEmail] = useState(true);
+  const [selectedRegions, setSelectedRegions] = useState([]);
 
   const showAlert = (message) => {
     setAlert({ visible: true, message });
@@ -123,15 +29,22 @@ function Partager({ setShowPartager, formation }) {
 
   const handleExporterEtEnvoyer = async () => {
     if (!email) {
-      showAlert("Erreur lors de l'envoi du mail !");
+      showAlert("Veuillez entrer une adresse e-mail !");
       return;
     }
 
     try {
       setLoading(true);
-      setMessage("");
 
-      const dataToExport = Array.isArray(formation) ? formation : [formation];
+      const dataToExport = (
+        Array.isArray(formation) ? formation : [formation]
+      ).filter((f) => selectedRegions.includes(f.nomReg));
+      if (dataToExport.length === 0) {
+        showAlert("Aucune formation ne correspond aux régions sélectionnées !");
+        setLoading(false);
+        return;
+      }
+
       const worksheet = XLSX.utils.json_to_sheet(dataToExport);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Formation");
@@ -139,84 +52,186 @@ function Partager({ setShowPartager, formation }) {
         bookType: "xlsx",
         type: "array",
       });
-      const file = new File([excelBuffer], `formation_${Date.now()}.xlsx`, {
+      const blob = new Blob([excelBuffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
 
-      saveAs(file, `formation_${Date.now()}.xlsx`);
+      saveAs(blob, `formation_${Date.now()}.xlsx`);
 
-      const response = await sendMail(email, file);
+      await sendMail(email, blob);
       showAlert("E-mail envoyé avec succès !");
+      setShowPartager(false);
     } catch (error) {
-      console.error("❌ Erreur :", error);
+      console.error("Erreur :", error);
       showAlert("Erreur lors de l'envoi du mail !");
     } finally {
       setLoading(false);
     }
   };
+  const handleExporter = async () => {
+    try {
+      setLoading(true);
+      const dataToExport = (
+        Array.isArray(formation) ? formation : [formation]
+      ).filter((f) => selectedRegions.includes(f.nomReg));
+
+      if (dataToExport.length === 0) {
+        showAlert("Aucune formation ne correspond aux régions sélectionnées !");
+        setLoading(false);
+        return;
+      }
+      // const dataToExport = Array.isArray(formation) ? formation : [formation];
+      const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Formation");
+
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+
+      const blob = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+
+      saveAs(blob, `formation_${Date.now()}.xlsx`);
+      showAlert("Fichier exporté avec succès !");
+      setShowPartager(false);
+    } catch (error) {
+      console.error("Erreur :", error);
+      showAlert("Erreur lors de l'export !");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const uniqueRegions = [...new Set(formation.map((f) => f.nomReg))].map(
+          (nomReg) => ({ nomReg })
+        );
+        setRegions(uniqueRegions);
+      } catch (error) {
+        console.error("Erreur lors du chargement des données :", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleSelectChange = useCallback((nom_reg, isSelected) => {
+    setSelectedRegions((prev) => {
+      if (isSelected) {
+        if (!prev.includes(nom_reg)) return [...prev, nom_reg];
+        return prev;
+      } else {
+        return prev.filter((r) => r !== nom_reg);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("🌍 Régions sélectionnées :", selectedRegions);
+  }, [selectedRegions]);
 
   return (
     <div className="partagercomp">
       <div className="part1">
-        <h5 id="h_part">Partager les informations sur cette formation</h5>
+        <h5 id="h_part">Informations sur cette formation</h5>
         <form id="form_part" onSubmit={(e) => e.preventDefault()}>
           <div>
+            <i
+              onClick={() => setSelectEmail((prev) => !prev)}
+              id="emailselect"
+              className={`fa ${selectEmail ? "fa-check-circle" : "fa-circle"}`}
+              style={{
+                cursor: "pointer",
+                fontSize: "15px",
+                color: selectEmail ? "green" : "gray",
+              }}
+            ></i>
             <input
               type="email"
               placeholder="Adresse e-mail du destinataire"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={!selectEmail}
+              style={{
+                opacity: selectEmail ? "1" : "0.4",
+              }}
             />
           </div>
-          <div id="choix">
-            <div>
-              <label htmlFor="vulgarisation">Vulgarisation</label>
-              <input
-                type="checkbox"
-                name="vulgarisation"
-                id="vulgar"
-                defaultChecked={true}
-              />
-            </div>
-            <div>
-              <label htmlFor="actions">Date des actions</label>
-              <input
-                type="checkbox"
-                name="actions"
-                id="act"
-                defaultChecked={true}
-              />
-            </div>
-            <div>
-              <label htmlFor="enreg">Enregister dans fichiers</label>
-              <input
-                type="checkbox"
-                name="enreg"
-                id="enreg"
-                defaultChecked={true}
-                disabled
-              />
-            </div>
+          <div id="choix_tous">
+            <p>Selectionner les regions :</p>
+            {/* <button>
+              <i className="fa fa-check-double"></i>
+            </button> */}
+            <section onClick={() => setSelectAll((prev) => !prev)}>
+              <label style={{ marginLeft: "8px", cursor: "pointer" }}>
+                {selectAll ? "Tout désélectionner" : "Tout sélectionner"}
+              </label>
+              <i
+                className={`fa ${selectAll ? "fa-check-circle" : "fa-circle"}`}
+                style={{
+                  cursor: "pointer",
+                  fontSize: "13px",
+                  color: selectAll ? "green" : "gray",
+                }}
+              ></i>
+            </section>
+          </div>
+          <div id="reg_choix">
+            {regions.length > 0 ? (
+              regions.map((reg, index) => (
+                <Partager_reg
+                  key={index}
+                  nom_reg={reg.nomReg}
+                  selectAll={selectAll}
+                  onSelectChange={handleSelectChange}
+                />
+              ))
+            ) : (
+              <p>Aucune région disponible</p>
+            )}
           </div>
         </form>
-        <p id="p_part">
-          Toutes les informations concernant cette formation seront visibles par
-          le destinataire via mail.
-        </p>
+        {selectEmail && (
+          <p id="p_part">
+            Toutes les informations concernant cette formation seront visibles
+            par le destinataire via mail.
+          </p>
+        )}
 
         {message && <p id="message__">{message}</p>}
         <div className="button">
           <button onClick={handleAnnuler} id="non2">
             Annuler
           </button>
-          <button
-            style={{ width: "160px" }}
-            disabled={loading || email.trim() === ""}
-            className={loading || email.trim() === "" ? "disabled_envoyer" : ""}
-            onClick={handleExporterEtEnvoyer}
-          >
-            {loading ? "Envoi en cours..." : "Exporter & Envoyer"}
-          </button>
+          {selectEmail && (
+            <button
+              style={{ width: "160px" }}
+              disabled={loading || email.trim() === ""}
+              className={
+                loading || email.trim() === "" ? "disabled_envoyer" : ""
+              }
+              onClick={handleExporterEtEnvoyer}
+            >
+              {loading ? "Envoi en cours..." : "Exporter & Envoyer"}
+            </button>
+          )}
+          {!selectEmail && (
+            <button
+              style={{ width: "160px" }}
+              // disabled={loading || email.trim() === ""}
+              // className={
+              //   loading || email.trim() === "" ? "disabled_envoyer" : ""
+              // }
+              onClick={handleExporter}
+            >
+              {loading ? "Export en cours..." : "Exporterr"}
+            </button>
+          )}
         </div>
       </div>
 

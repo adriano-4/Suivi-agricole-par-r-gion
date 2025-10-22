@@ -44,3 +44,20 @@ export const deleteDistrict = async (districtId) => {
     throw error;
   }
 };
+
+export const updateDistrict = async (districtId, districtData) => {
+  try {
+    const response = await api.put(`/districts/${districtId}`, districtData);
+    console.log(
+      `District ${districtId} mis à jour avec succès :`,
+      response.data
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      `Erreur lors de la mise à jour du district ${districtId} :`,
+      error
+    );
+    throw error;
+  }
+};

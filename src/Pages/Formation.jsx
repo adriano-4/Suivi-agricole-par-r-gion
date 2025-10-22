@@ -325,6 +325,14 @@ function Formation() {
             <span>Nouvelle formation</span>
             <i className="fa fa-plus"></i>
           </button>
+          <button
+            id="part"
+            onClick={() => {
+              setShowPartager(true);
+            }}
+          >
+            <i className="fa fa-share-from-square"></i>
+          </button>
         </div>
       </div>
 
@@ -359,7 +367,7 @@ function Formation() {
                     {item.nomTech} {item.prenomTech}
                   </td>
                   <td>{item.dateFormation.split("T")[0]}</td>
-                  <td id="btn_td">
+                  <td id="btn_td" className="btn_td">
                     <button
                       id="Apport"
                       onClick={() => {
@@ -368,7 +376,6 @@ function Formation() {
                       }}
                     >
                       <span>Vulgarisation</span>
-                      {/* <i className="fa fa-suitcase"></i> */}
                     </button>
                     <button
                       id="Apport"
@@ -378,23 +385,13 @@ function Formation() {
                       }}
                     >
                       <span>Date actions</span>
-                      {/* <i className="fas fa-calendar-alt"></i> */}
                     </button>
                     <button id="sup">
-                      <i className="fa fa-trash-alt"></i>
+                      <i className="fa fa-calendar"></i>
                     </button>
-                    <button
-                      id="part"
-                      onClick={() => {
-                        setSelectedFormation(item);
-                        setShowPartager(true);
-                      }}
-                    >
-                      <i className="fa fa-paperclip"></i>
+                    <button id="valider_">
+                      <i className="fa fa-check"></i>
                     </button>
-                    {/* <button id="part">
-                      <i className="fa fa-save"></i>
-                    </button> */}
                   </td>
                 </tr>
               ))
@@ -432,10 +429,7 @@ function Formation() {
       )}
 
       {showPartager && (
-        <Partager
-          formation={selectedFormation}
-          setShowPartager={setShowPartager}
-        />
+        <Partager formation={filteredData} setShowPartager={setShowPartager} />
       )}
     </div>
   );

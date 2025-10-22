@@ -6,6 +6,8 @@ function donnee({ region }) {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const anneePrecedente = new Date().getFullYear() - 1;
+  const anneeActuelle = new Date().getFullYear();
 
   console.log(region.color);
   useEffect(() => {
@@ -40,7 +42,7 @@ function donnee({ region }) {
           <h4>{region.nomReg}</h4>
         </section>
         {/* <i className="fa fa-list"></i> */}
-        <div className="color" style={{ backgroundColor: region.color }}></div>
+        {/* <div className="color" style={{ backgroundColor: region.color }}></div> */}
       </div>
       <div className="donnee_bas">
         <div>
@@ -56,19 +58,19 @@ function donnee({ region }) {
           </span>
         </div>
         <div>
-          <p>Superficie précédente :</p>
+          <p>Superficie total ({anneePrecedente}) :</p>
           <span className={valueClass(stats.superficie_precedente)}>
             {stats.superficie_precedente}
           </span>
         </div>
         <div>
-          <p>Superficie actuelle :</p>
+          <p>Superficie total ({anneeActuelle}) :</p>
           <span className={valueClass(stats.superficie_actuelle)}>
             {stats.superficie_actuelle}
           </span>
         </div>
         <div>
-          <p>Superficie FSRP actuelle :</p>
+          <p>Superficie FSRP total ({anneeActuelle}) :</p>
           <span className={valueClass(stats.superficie_fsrp_actuelle)}>
             {stats.superficie_fsrp_actuelle}
           </span>

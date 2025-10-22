@@ -52,13 +52,29 @@ export const addCommune = async (districtId, communeData) => {
   }
 };
 
-// Supprimer une commune
 export const deleteCommune = async (communeId) => {
   try {
     await api.delete(`/communes/${communeId}`);
     console.log(`Commune ${communeId} supprimée avec succès`);
   } catch (error) {
     console.error("Erreur lors de la suppression de la commune :", error);
+    throw error;
+  }
+};
+
+export const updateCommune = async (communeId, communeData) => {
+  try {
+    const response = await api.put(`/communes/${communeId}`, communeData);
+    console.log(
+      `Commune ${communeId} mise à jour avec succès :`,
+      response.data
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      `Erreur lors de la mise à jour de la commune ${communeId} :`,
+      error
+    );
     throw error;
   }
 };
