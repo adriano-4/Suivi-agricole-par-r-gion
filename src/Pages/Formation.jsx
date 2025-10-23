@@ -204,6 +204,7 @@ import { useState, useEffect } from "react";
 import Vulgarisation from "../components/vulgarisation";
 import Ajout_formation from "../components/ajout_formation";
 import Partager from "../components/partager";
+import Reporter from "../components/reporter";
 
 import {
   getAllFormationsView,
@@ -215,11 +216,12 @@ function Formation() {
   const [selectedFormation, setSelectedFormation] = useState(null);
   const [showFormation, setShowFormation] = useState(false);
   const [showVulg, setShowVulg] = useState(false);
-  const [showAjoutForm, setShowAjoutForm] = useState(false); // ✅ Ajouté
+  const [showAjoutForm, setShowAjoutForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [formations, setFormations] = useState([]);
   const [showPartager, setShowPartager] = useState(false);
+  const [showReporter, setShowReporter] = useState(false);
 
   const refreshFormations = async () => {
     try {
@@ -299,6 +301,11 @@ function Formation() {
     }
   }, [searchTerm, formations]);
 
+  console.log(
+    "Dates de formation :",
+    filteredData.map((f) => f.dateFormation)
+  );
+
   return (
     <div>
       <NavBar />
@@ -366,7 +373,13 @@ function Formation() {
                   <td>
                     {item.nomTech} {item.prenomTech}
                   </td>
-                  <td>{item.dateFormation.split("T")[0]}</td>
+                  {/* <td>{item.dateFormation.split("T")[0]}</td> */}
+                  <td>
+                    {item.dateFormation
+                      ? new Date(item.dateFormation).toLocaleDateString("fr-FR")
+                      : "-"}
+                  </td>
+
                   <td id="btn_td" className="btn_td">
                     <button
                       id="Apport"
@@ -386,7 +399,13 @@ function Formation() {
                     >
                       <span>Date actions</span>
                     </button>
-                    <button id="sup">
+                    <button
+                      id="sup"
+                      onClick={() => {
+                        setSelectedFormation(item);
+                        setShowReporter(true);
+                      }}
+                    >
                       <i className="fa fa-calendar"></i>
                     </button>
                     <button id="valider_">
@@ -431,6 +450,7 @@ function Formation() {
       {showPartager && (
         <Partager formation={filteredData} setShowPartager={setShowPartager} />
       )}
+      {showReporter && <Reporter setShowReporter={setShowReporter} />}
     </div>
   );
 }

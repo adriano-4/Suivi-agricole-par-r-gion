@@ -17,6 +17,9 @@ function Partager({ setShowPartager, formation }) {
   const [selectAll, setSelectAll] = useState(false);
   const [selectEmail, setSelectEmail] = useState(true);
   const [selectedRegions, setSelectedRegions] = useState([]);
+  const isRegionSelected = selectedRegions.length > 0;
+  const [selectDate, setSelectDate] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
 
   const showAlert = (message) => {
     setAlert({ visible: true, message });
@@ -36,9 +39,17 @@ function Partager({ setShowPartager, formation }) {
     try {
       setLoading(true);
 
-      const dataToExport = (
+      let dataToExport = (
         Array.isArray(formation) ? formation : [formation]
       ).filter((f) => selectedRegions.includes(f.nomReg));
+
+      if (selectDate && selectedDate) {
+        dataToExport = dataToExport.filter((f) => {
+          if (!f.dateFormation) return false;
+          return f.dateFormation.split("T")[0] === selectedDate;
+        });
+      }
+
       if (dataToExport.length === 0) {
         showAlert("Aucune formation ne correspond aux régions sélectionnées !");
         setLoading(false);
@@ -71,9 +82,16 @@ function Partager({ setShowPartager, formation }) {
   const handleExporter = async () => {
     try {
       setLoading(true);
-      const dataToExport = (
+      let dataToExport = (
         Array.isArray(formation) ? formation : [formation]
       ).filter((f) => selectedRegions.includes(f.nomReg));
+
+      if (selectDate && selectedDate) {
+        dataToExport = dataToExport.filter((f) => {
+          if (!f.dateFormation) return false;
+          return f.dateFormation.split("T")[0] === selectedDate;
+        });
+      }
 
       if (dataToExport.length === 0) {
         showAlert("Aucune formation ne correspond aux régions sélectionnées !");
@@ -105,20 +123,50 @@ function Partager({ setShowPartager, formation }) {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const uniqueRegions = [...new Set(formation.map((f) => f.nomReg))].map(
-          (nomReg) => ({ nomReg })
-        );
-        setRegions(uniqueRegions);
-      } catch (error) {
-        console.error("Erreur lors du chargement des données :", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const uniqueRegions = [...new Set(formation.map((f) => f.nomReg))].map(
+  //         (nomReg) => ({ nomReg })
+  //       );
+  //       setRegions(uniqueRegions);
+  //     } catch (error) {
+  //       console.error("Erreur lors du chargement des données :", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
+
+  useEffect(() => {
+    try {
+      let filteredFormations = Array.isArray(formation)
+        ? formation
+        : [formation];
+
+      console.log(
+        "📅 Dates et régions de formation :",
+        filteredFormations.map((f) => ({
+          date: f.dateFormation,
+          region: f.nomReg,
+        }))
+      );
+      if (selectDate && selectedDate) {
+        filteredFormations = filteredFormations.filter((f) => {
+          if (!f.dateFormation) return false;
+          return f.dateFormation.split("T")[0] === selectedDate;
+        });
+      }
+
+      const uniqueRegions = [
+        ...new Set(filteredFormations.map((f) => f.nomReg)),
+      ].map((nomReg) => ({ nomReg }));
+
+      setRegions(uniqueRegions);
+    } catch (error) {
+      console.error("Erreur lors du chargement des régions :", error);
+    }
+  }, [formation, selectDate, selectedDate]);
 
   const handleSelectChange = useCallback((nom_reg, isSelected) => {
     setSelectedRegions((prev) => {
@@ -163,23 +211,27 @@ function Partager({ setShowPartager, formation }) {
             />
           </div>
           <div id="choix_tous">
-            <p>Selectionner les regions :</p>
+            <p>Selection des regions :</p>
             {/* <button>
               <i className="fa fa-check-double"></i>
             </button> */}
-            <section onClick={() => setSelectAll((prev) => !prev)}>
-              <label style={{ marginLeft: "8px", cursor: "pointer" }}>
-                {selectAll ? "Tout désélectionner" : "Tout sélectionner"}
-              </label>
-              <i
-                className={`fa ${selectAll ? "fa-check-circle" : "fa-circle"}`}
-                style={{
-                  cursor: "pointer",
-                  fontSize: "13px",
-                  color: selectAll ? "green" : "gray",
-                }}
-              ></i>
-            </section>
+            {isRegionSelected && (
+              <section onClick={() => setSelectAll((prev) => !prev)}>
+                <label style={{ marginLeft: "8px", cursor: "pointer" }}>
+                  {selectAll ? "Tout désélectionner" : "Tout sélectionner"}
+                </label>
+                <i
+                  className={`fa ${
+                    selectAll ? "fa-check-circle" : "fa-circle"
+                  }`}
+                  style={{
+                    cursor: "pointer",
+                    fontSize: "13px",
+                    color: selectAll ? "green" : "gray",
+                  }}
+                ></i>
+              </section>
+            )}
           </div>
           <div id="reg_choix">
             {regions.length > 0 ? (
@@ -192,8 +244,38 @@ function Partager({ setShowPartager, formation }) {
                 />
               ))
             ) : (
-              <p>Aucune région disponible</p>
+              <p id="aucu">Aucune région disponible</p>
             )}
+          </div>
+          <div id="choix_tous">
+            <p>Selection de date :</p>
+          </div>
+
+          <div className="date_choix_export">
+            <div>
+              <i
+                onClick={() => setSelectDate((prev) => !prev)}
+                id="dateselect"
+                className={`fa ${selectDate ? "fa-check-circle" : "fa-circle"}`}
+                style={{
+                  cursor: "pointer",
+                  fontSize: "15px",
+                  color: selectDate ? "green" : "gray",
+                }}
+              ></i>
+
+              <input
+                type="date"
+                name="date_formation"
+                id="date_formation"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                disabled={!selectDate}
+                style={{
+                  opacity: selectDate ? "1" : "0.4",
+                }}
+              />
+            </div>
           </div>
         </form>
         {selectEmail && (
@@ -211,9 +293,11 @@ function Partager({ setShowPartager, formation }) {
           {selectEmail && (
             <button
               style={{ width: "160px" }}
-              disabled={loading || email.trim() === ""}
+              disabled={loading || email.trim() === "" || !isRegionSelected}
               className={
-                loading || email.trim() === "" ? "disabled_envoyer" : ""
+                loading || email.trim() === "" || !isRegionSelected
+                  ? "disabled_envoyer"
+                  : ""
               }
               onClick={handleExporterEtEnvoyer}
             >
@@ -223,13 +307,13 @@ function Partager({ setShowPartager, formation }) {
           {!selectEmail && (
             <button
               style={{ width: "160px" }}
-              // disabled={loading || email.trim() === ""}
-              // className={
-              //   loading || email.trim() === "" ? "disabled_envoyer" : ""
-              // }
+              className={
+                loading || !isRegionSelected ? "disabled_exporter" : ""
+              }
+              disabled={loading || !isRegionSelected}
               onClick={handleExporter}
             >
-              {loading ? "Export en cours..." : "Exporterr"}
+              {loading ? "Export en cours..." : "Exporter"}
             </button>
           )}
         </div>

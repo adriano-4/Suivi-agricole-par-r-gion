@@ -178,13 +178,13 @@ table tr td button:focus {
   outline: none;
   border: none;
 }
-.btn_td {
+#btn_td {
   display: flex;
   align-items: center;
   gap: 10px;
   height: 50px;
   justify-content: end;
-  transf/orm: translateX(350px);
+  /* transf/orm: translateX(350px); */
   transition: all 0.3s;
 }
 /* table tr:hover .btn_td {
