@@ -33,14 +33,10 @@ function Navigation() {
 
           {role === "ROLE_ADMIN" && (
             <>
-              <NavItem to="/intrant" icon="fa-seedling" label="Intrants" />
+              {/* <NavItem to="/intrant" icon="fa-seedling" label="Intrants" /> */}
               <NavItem to="/region" icon="fa-map" label="Régions" />
               <NavItem to="/compte" icon="fa-user-cog" label="Comptes" />
-              <NavItem
-                to="/responsable"
-                icon="fa-user-tie"
-                label="Responsables"
-              />
+              <NavItem to="/responsable" icon="fa-layer-group" label="Autres" />
               <NavItem to="/suivi" icon="fa-chart-line" label="Suivi" />
             </>
           )}

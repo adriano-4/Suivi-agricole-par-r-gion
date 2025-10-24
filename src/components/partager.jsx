@@ -7,6 +7,7 @@ import { sendMail } from "../service/mail";
 import Alert_message from "../components/alert_message";
 import Partager_reg from "./partager_reg";
 import { getAllRegions } from "../service/region";
+import { getActions } from "../service/action";
 
 function Partager({ setShowPartager, formation }) {
   const [regions, setRegions] = useState([]);
@@ -30,6 +31,55 @@ function Partager({ setShowPartager, formation }) {
     setShowPartager(false);
   };
 
+  // const handleExporterEtEnvoyer = async () => {
+  //   if (!email) {
+  //     showAlert("Veuillez entrer une adresse e-mail !");
+  //     return;
+  //   }
+
+  //   try {
+  //     setLoading(true);
+
+  //     let dataToExport = (
+  //       Array.isArray(formation) ? formation : [formation]
+  //     ).filter((f) => selectedRegions.includes(f.nomReg));
+
+  //     if (selectDate && selectedDate) {
+  //       dataToExport = dataToExport.filter((f) => {
+  //         if (!f.dateFormation) return false;
+  //         return f.dateFormation.split("T")[0] === selectedDate;
+  //       });
+  //     }
+
+  //     if (dataToExport.length === 0) {
+  //       showAlert("Aucune formation ne correspond aux régions sélectionnées !");
+  //       setLoading(false);
+  //       return;
+  //     }
+
+  //     const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+  //     const workbook = XLSX.utils.book_new();
+  //     XLSX.utils.book_append_sheet(workbook, worksheet, "Formation");
+  //     const excelBuffer = XLSX.write(workbook, {
+  //       bookType: "xlsx",
+  //       type: "array",
+  //     });
+  //     const blob = new Blob([excelBuffer], {
+  //       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  //     });
+
+  //     saveAs(blob, `formation_${Date.now()}.xlsx`);
+
+  //     await sendMail(email, blob);
+  //     showAlert("E-mail envoyé avec succès !");
+  //     setShowPartager(false);
+  //   } catch (error) {
+  //     console.error("Erreur :", error);
+  //     showAlert("Erreur lors de l'envoi du mail !");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const handleExporterEtEnvoyer = async () => {
     if (!email) {
       showAlert("Veuillez entrer une adresse e-mail !");
@@ -56,18 +106,44 @@ function Partager({ setShowPartager, formation }) {
         return;
       }
 
-      const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+      const formationsAvecActions = await Promise.all(
+        dataToExport.map(async (f) => {
+          try {
+            const actions = await getActions(f.idFormation);
+
+            const actionsFormatees = {};
+            actions.forEach((a, index) => {
+              actionsFormatees[`Action ${index + 1}`] = a.typeAction || "";
+              actionsFormatees[`Date ${index + 1}`] = a.dateAction
+                ? a.dateAction.split("T")[0]
+                : "";
+            });
+
+            return { ...f, ...actionsFormatees };
+          } catch (err) {
+            console.error(
+              `Erreur lors de la récupération des actions pour la formation ${f.idFormation}`,
+              err
+            );
+            return f;
+          }
+        })
+      );
+
+      const worksheet = XLSX.utils.json_to_sheet(formationsAvecActions);
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Formation");
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Formations + Actions");
+
       const excelBuffer = XLSX.write(workbook, {
         bookType: "xlsx",
         type: "array",
       });
+
       const blob = new Blob([excelBuffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
 
-      saveAs(blob, `formation_${Date.now()}.xlsx`);
+      saveAs(blob, `formation_actions_${Date.now()}.xlsx`);
 
       await sendMail(email, blob);
       showAlert("E-mail envoyé avec succès !");
@@ -79,9 +155,54 @@ function Partager({ setShowPartager, formation }) {
       setLoading(false);
     }
   };
+
+  // const handleExporter = async () => {
+  //   try {
+  //     setLoading(true);
+  //     let dataToExport = (
+  //       Array.isArray(formation) ? formation : [formation]
+  //     ).filter((f) => selectedRegions.includes(f.nomReg));
+
+  //     if (selectDate && selectedDate) {
+  //       dataToExport = dataToExport.filter((f) => {
+  //         if (!f.dateFormation) return false;
+  //         return f.dateFormation.split("T")[0] === selectedDate;
+  //       });
+  //     }
+
+  //     if (dataToExport.length === 0) {
+  //       showAlert("Aucune formation ne correspond aux régions sélectionnées !");
+  //       setLoading(false);
+  //       return;
+  //     }
+  //     // const dataToExport = Array.isArray(formation) ? formation : [formation];
+  //     const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+  //     const workbook = XLSX.utils.book_new();
+  //     XLSX.utils.book_append_sheet(workbook, worksheet, "Formation");
+
+  //     const excelBuffer = XLSX.write(workbook, {
+  //       bookType: "xlsx",
+  //       type: "array",
+  //     });
+
+  //     const blob = new Blob([excelBuffer], {
+  //       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  //     });
+
+  //     saveAs(blob, `formation_${Date.now()}.xlsx`);
+  //     showAlert("Fichier exporté avec succès !");
+  //     setShowPartager(false);
+  //   } catch (error) {
+  //     console.error("Erreur :", error);
+  //     showAlert("Erreur lors de l'export !");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const handleExporter = async () => {
     try {
       setLoading(true);
+
       let dataToExport = (
         Array.isArray(formation) ? formation : [formation]
       ).filter((f) => selectedRegions.includes(f.nomReg));
@@ -98,10 +219,34 @@ function Partager({ setShowPartager, formation }) {
         setLoading(false);
         return;
       }
-      // const dataToExport = Array.isArray(formation) ? formation : [formation];
-      const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+
+      const formationsAvecActions = await Promise.all(
+        dataToExport.map(async (f) => {
+          try {
+            const actions = await getActions(f.idFormation);
+
+            const actionsFormatees = {};
+            actions.forEach((a, index) => {
+              actionsFormatees[`Action ${index + 1}`] = a.typeAction || "";
+              actionsFormatees[`Date ${index + 1}`] = a.dateAction
+                ? a.dateAction.split("T")[0]
+                : "";
+            });
+
+            return { ...f, ...actionsFormatees };
+          } catch (err) {
+            console.error(
+              `Erreur lors de la récupération des actions pour la formation ${f.idFormation}`,
+              err
+            );
+            return f;
+          }
+        })
+      );
+
+      const worksheet = XLSX.utils.json_to_sheet(formationsAvecActions);
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Formation");
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Formations + Actions");
 
       const excelBuffer = XLSX.write(workbook, {
         bookType: "xlsx",
@@ -112,7 +257,7 @@ function Partager({ setShowPartager, formation }) {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
 
-      saveAs(blob, `formation_${Date.now()}.xlsx`);
+      saveAs(blob, `formation_actions_${Date.now()}.xlsx`);
       showAlert("Fichier exporté avec succès !");
       setShowPartager(false);
     } catch (error) {
@@ -122,21 +267,6 @@ function Partager({ setShowPartager, formation }) {
       setLoading(false);
     }
   };
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const uniqueRegions = [...new Set(formation.map((f) => f.nomReg))].map(
-  //         (nomReg) => ({ nomReg })
-  //       );
-  //       setRegions(uniqueRegions);
-  //     } catch (error) {
-  //       console.error("Erreur lors du chargement des données :", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   useEffect(() => {
     try {

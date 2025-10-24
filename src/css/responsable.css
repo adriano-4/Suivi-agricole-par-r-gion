@@ -179,12 +179,12 @@ td button {
   color: black;
 }
 
-#tableau_resp {
+.tableau_resp {
   width: 100%;
   height: 33vw;
   /* background-color: red; */
 }
-#tableau_resp .entete_responsable {
+.tableau_resp .entete_responsable {
   display: flex;
   align-items: center;
   justify-content: start;
@@ -192,7 +192,7 @@ td button {
   height: 60px;
 }
 
-#tableau_resp .entete_responsable input {
+.tableau_resp .entete_responsable input {
   margin-left: 40px;
   width: 260px;
   height: 35px;
@@ -204,7 +204,7 @@ td button {
   font-size: 13px;
 }
 
-#tableau_resp .entete_responsable button {
+.tableau_resp .entete_responsable button {
   border-radius: 20px;
   height: 35px;
   display: flex;
@@ -218,27 +218,27 @@ td button {
   border: none;
   outline: none;
 }
-#tableau_resp .entete_responsable button:hover {
+.tableau_resp .entete_responsable button:hover {
   background-color: rgba(0, 128, 0, 0.21);
 }
-#tableau_resp .entete_responsable button span {
+.tableau_resp .entete_responsable button span {
   position: relative;
   bottom: 1px;
 }
-#tableau_resp .entete_responsable input:focus {
+.tableau_resp .entete_responsable input:focus {
   border: none;
   outline: none;
   border: 1px solid rgba(0, 0, 0, 0.215);
   color: black;
 }
-#tableau_resp .tableau_responsable__ {
+.tableau_resp .tableau_responsable__ {
   display: flex;
   justify-content: center;
 }
-#tableau_resp .tableau_responsable__ table {
+.tableau_resp .tableau_responsable__ table {
   width: 95%;
 }
-#tableau_resp .tableau_responsable__ table th {
+.tableau_resp .tableau_responsable__ table th {
   width: 250px;
 }
 #btn_td3 {

@@ -450,7 +450,13 @@ function Formation() {
       {showPartager && (
         <Partager formation={filteredData} setShowPartager={setShowPartager} />
       )}
-      {showReporter && <Reporter setShowReporter={setShowReporter} />}
+      {showReporter && (
+        <Reporter
+          setShowReporter={setShowReporter}
+          formation={selectedFormation}
+          refreshFormations={refreshFormations}
+        />
+      )}
     </div>
   );
 }

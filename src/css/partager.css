@@ -1,4 +1,5 @@
-.partagercomp {
+.partagercomp,
+.reporter {
   width: 100vw;
   height: 100vh;
   position: absolute;
@@ -12,7 +13,8 @@
   justify-content: center;
   backdrop-filter: blur(2px);
 }
-.partagercomp .part1 {
+.partagercomp .part1,
+.reporter .reporter_div {
   width: 600px;
   height: auto;
   background-color: white;
@@ -175,14 +177,53 @@
   height: 35px;
   margin-left: 10px;
   padding-left: 10px;
-  background-color: rgba(0, 0, 0, 0.051);
   border-radius: 5px;
   border: none;
   outline: none;
+  background-color: rgba(0, 0, 0, 0.051);
   color: rgba(0, 0, 0, 0.712);
 }
 #aucu {
   font-size: 12px;
   color: red;
   margin-left: 40px;
+}
+.date_desc {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.date_desc input,
+.date_desc textarea {
+  min-width: 69%;
+  max-width: 69%;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  background-color: rgba(0, 0, 0, 0.051);
+  color: rgba(0, 0, 0, 0.712);
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+.date_desc input {
+  height: 35px;
+  padding-left: 10px;
+}
+.date_desc textarea {
+  height: 100px;
+  min-height: 35px;
+  padding-left: 10px;
+  max-height: 100px;
+  margin-bottom: 30px;
+  font-size: 13px;
+  padding-top: 5px;
+}
+.date_desc input:focus,
+.date_desc textarea:focus {
+  border-bottom: 1px solid var(--bleu);
+}
+
+.valider__disabled {
+  opacity: 0.4;
 }
