@@ -304,7 +304,7 @@ h2 span {
 #suggestions-list div {
   height: 30px;
   transition: all 0.3s;
-  background-color: rgba(131, 131, 133, 0.101);
+  background-color: rgba(131, 131, 133, 0.038);
   font-size: 11px;
   text-wrap: nowrap;
   padding-left: 10px;
@@ -317,5 +317,5 @@ h2 span {
   align-items: center;
 }
 #suggestions-list div:hover {
-  background-color: #cccccc9c;
+  background-color: #cccccc73;
 }

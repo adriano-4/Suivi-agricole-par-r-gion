@@ -479,10 +479,10 @@ function formation_date({ setShowFormation, formation, onUpdateSuccess }) {
               <div
                 key={idx}
                 className="div_rond"
-                style={{
-                  border: "1px solid red",
-                  background: "rgba(255, 0, 0, 0.1)",
-                }}
+                // style={{
+                //   border: "1px solid red",
+                //   background: "rgba(255, 0, 0, 0.1)",
+                // }}
               >
                 <p>{action.typeAction} </p>
 
@@ -515,10 +515,10 @@ function formation_date({ setShowFormation, formation, onUpdateSuccess }) {
             {actionsDroite.map((action, idx) => (
               <div
                 key={idx}
-                style={{
-                  border: "1px solid red",
-                  background: "rgba(255, 0, 0, 0.1)",
-                }}
+                // style={{
+                //   border: "1px solid red",
+                //   background: "rgba(255, 0, 0, 0.1)",
+                // }}
               >
                 <p>{action.typeAction}</p>
                 {isEditing ? (

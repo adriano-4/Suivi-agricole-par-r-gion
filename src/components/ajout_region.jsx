@@ -23,12 +23,24 @@ function AjoutRegion({ setShowAjout_reg }) {
       .catch((err) => console.error(err));
   }, []);
 
+  // useEffect(() => {
+  //   if (!inputValue) {
+  //     setSuggestions([]);
+  //   } else {
+  //     const filtered = regionRefs.filter((r) =>
+  //       r.nomRegref?.toLowerCase().includes(inputValue.toLowerCase())
+  //     );
+  //     setSuggestions(filtered);
+  //   }
+  // }, [inputValue, regionRefs]);
   useEffect(() => {
     if (!inputValue) {
       setSuggestions([]);
     } else {
-      const filtered = regionRefs.filter((r) =>
-        r.nomRegref?.toLowerCase().includes(inputValue.toLowerCase())
+      const filtered = regionRefs.filter(
+        (r) =>
+          r.nomRegref?.toLowerCase().includes(inputValue.toLowerCase()) &&
+          r.nomRegref.toLowerCase() !== inputValue.toLowerCase() // ✅ évite la redondance
       );
       setSuggestions(filtered);
     }
@@ -114,7 +126,7 @@ function AjoutRegion({ setShowAjout_reg }) {
                 {suggestions.map((s) => (
                   <div
                     key={s.idRegRef}
-                    onMouseDown={(e) => {
+                    onClick={(e) => {
                       e.preventDefault();
                       handleSuggestionClick(s);
                     }}
