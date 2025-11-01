@@ -8,8 +8,8 @@ import {
   getAppartenancesByRegion,
 } from "../service/appartenance";
 import { getAllRegions } from "../service/region";
-import Alert_message from "../components/alert_message";
 import { createFormation } from "../service/formation";
+import Alert_message from "../components/alert_message";
 
 function ajout_formation({ setShowAjout_form, refreshFormations }) {
   const [regions, setRegions] = useState([]);
@@ -89,7 +89,7 @@ function ajout_formation({ setShowAjout_form, refreshFormations }) {
         }
 
         let data = [];
-        
+
         if (regionName && regionName.trim() !== "") {
           const allRegions = await getAllRegions();
 

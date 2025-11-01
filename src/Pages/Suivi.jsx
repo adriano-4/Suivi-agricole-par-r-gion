@@ -34,6 +34,7 @@ function Suivi() {
   const anneePrecedente = new Date().getFullYear() - 1;
   const [stats, setStats] = useState([]);
   const [sup, setSup] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getRandomColor = () => {
     const families = ["green", "blue", "pink"];
@@ -75,6 +76,7 @@ function Suivi() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const regionData = await getAllRegions();
         const statsData = await getAllStats();
         const SupData = await getAllSuperficieRegion();
@@ -89,6 +91,8 @@ function Suivi() {
         setSup(SupData);
       } catch (error) {
         console.error("Erreur lors du chargement des données :", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -145,7 +149,7 @@ function Suivi() {
     datasets: [
       {
         label: "Superficie totale cible (ha)",
-        data: sup.map((s) => s.superficieTotaleCible), // ← ici on prend la superficie
+        data: sup.map((s) => s.superficieTotaleCible),
         backgroundColor: "rgba(255, 152, 123, 0.6)",
         borderColor: "rgba(255, 141, 123, 1)",
         borderWidth: 1,
@@ -216,60 +220,63 @@ function Suivi() {
   return (
     <div>
       <NavBar />
-      <div id="ppale_suivi">
-        <div className="gauche_suivi">
-          <h2>Statistique par région</h2>
-          <div className="donnee__">
-            {regions.length > 0 ? (
-              regions.map((region, index) => (
-                <Donnee key={index} region={region} />
-              ))
-            ) : (
-              <p>Aucune région trouvée.</p>
-            )}
-          </div>
-        </div>
-        <div className="droite_suivi">
-          <div className="gggg">
-            <h2>Graphique</h2>
-            <button id="down" onClick={handleDownload}>
-              <i className="fa fa-file-arrow-down"></i>
-            </button>
-            <div className="btn_next">
-              <button onClick={handlePrev}>
-                <i className="fa fa-caret-left"></i>
-              </button>
-              <button onClick={handleNext}>
-                <i className="fa fa-caret-right"></i>
-              </button>
+      {loading ? (
+        <Chargement />
+      ) : (
+        <div id="ppale_suivi">
+          <div className="gauche_suivi">
+            <h2>Statistique par région</h2>
+            <div className="donnee__">
+              {regions.length > 0 ? (
+                regions.map((region, index) => (
+                  <Donnee key={index} region={region} />
+                ))
+              ) : (
+                <p>Aucune région trouvée.</p>
+              )}
             </div>
           </div>
-          <div className="partie_haut_graphique">
-            {affichages[currentIndex]}
-          </div>
-          <div className="partie_bas_graphique">
-            <Graphe
-              regions={regions}
-              titre="Nombre de formations"
-              donnee={nbrFormationsParRegion}
-              nom="Formations"
-            />
-            <Graphe
-              regions={regions}
-              titre="Nombre de Bénéficiaires"
-              donnee={nbrBeneficiairesParRegion}
-              nom="Bénéficiaires"
-            />
-            <Graphe
+          <div className="droite_suivi">
+            <div className="gggg">
+              <h2>Graphique</h2>
+              <button id="down" onClick={handleDownload}>
+                <i className="fa fa-file-arrow-down"></i>
+              </button>
+              <div className="btn_next">
+                <button onClick={handlePrev}>
+                  <i className="fa fa-caret-left"></i>
+                </button>
+                <button onClick={handleNext}>
+                  <i className="fa fa-caret-right"></i>
+                </button>
+              </div>
+            </div>
+            <div className="partie_haut_graphique">
+              {affichages[currentIndex]}
+            </div>
+            <div className="partie_bas_graphique">
+              <Graphe
+                regions={regions}
+                titre="Nombre de formations"
+                donnee={nbrFormationsParRegion}
+                nom="Formations"
+              />
+              <Graphe
+                regions={regions}
+                titre="Nombre de Bénéficiaires"
+                donnee={nbrBeneficiairesParRegion}
+                nom="Bénéficiaires"
+              />
+              {/* <Graphe
               regions={regions}
               titre="Nombre de Livraisons"
               // donnee={nbrBeneficiairesParRegion}
               nom="Livraisons"
-            />
+            /> */}
+            </div>
           </div>
         </div>
-      </div>
-      <Chargement />
+      )}
     </div>
   );
 }

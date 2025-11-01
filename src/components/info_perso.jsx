@@ -716,7 +716,7 @@ function Info_perso({ setShowInfo, beneficiaire }) {
               )}
             </div>
             <div>
-              <p>Superficie FSRP</p>
+              <p>Superficie d'Appui</p>
               {isEditing ? (
                 <input
                   id="input_update"

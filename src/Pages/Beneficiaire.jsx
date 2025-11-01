@@ -307,9 +307,9 @@ function Beneficiaire() {
                     >
                       <span>Apport</span> <i className="fa fa-info"></i>
                     </button>
-                    <button id="sup">
+                    {/* <button id="sup">
                       <i className="fa fa-trash-alt"></i>
-                    </button>
+                    </button> */}
                   </td>
                 </tr>
               ))

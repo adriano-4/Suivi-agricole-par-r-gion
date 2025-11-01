@@ -408,9 +408,9 @@ function Formation() {
                     >
                       <i className="fa fa-calendar"></i>
                     </button>
-                    <button id="valider_">
+                    {/* <button id="valider_">
                       <i className="fa fa-check"></i>
-                    </button>
+                    </button> */}
                   </td>
                 </tr>
               ))

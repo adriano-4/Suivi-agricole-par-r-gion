@@ -404,6 +404,7 @@ table tr td button:focus {
   margin-right: 20px;
   font-size: 13px;
   font-weight: 600;
+  text-wrap: nowrap;
 }
 #info_perso2 .bas .bas_droite h3 {
   width: 80%;

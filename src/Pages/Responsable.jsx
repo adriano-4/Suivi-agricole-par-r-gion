@@ -502,10 +502,10 @@ function Responsable() {
         >
           <div className="tete_resp">
             <i className="fa-solid fa-boxes"></i>
-            <span>Autres produits</span>
+            <span>Matériels et autres</span>
           </div>
           <div className="bas_resp">
-            <p>Autres produits nécessaires pour la livraison</p>
+            <p>Matériels et autres produits</p>
           </div>
         </button>
 

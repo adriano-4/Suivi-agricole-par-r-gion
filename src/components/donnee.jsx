@@ -51,28 +51,28 @@ function donnee({ region }) {
             {stats.nbr_beneficiaire}
           </span>
         </div>
-        <div>
+        {/* <div>
           <p>Nombre de formation :</p>
           <span className={valueClass(stats.nbr_formation)}>
             {stats.nbr_formation}
           </span>
-        </div>
+        </div> */}
         <div>
-          <p>Superficie total ({anneePrecedente}) :</p>
+          <p>Superficie total ({anneePrecedente}):</p>
           <span className={valueClass(stats.superficie_precedente)}>
-            {stats.superficie_precedente}
+            {stats.superficie_precedente} Ha
           </span>
         </div>
         <div>
-          <p>Superficie total ({anneeActuelle}) :</p>
+          <p>Superficie total ({anneeActuelle}):</p>
           <span className={valueClass(stats.superficie_actuelle)}>
-            {stats.superficie_actuelle}
+            {stats.superficie_actuelle} Ha
           </span>
         </div>
         <div>
-          <p>Superficie FSRP total ({anneeActuelle}) :</p>
+          <p>Superficie d'appui ({anneeActuelle}):</p>
           <span className={valueClass(stats.superficie_fsrp_actuelle)}>
-            {stats.superficie_fsrp_actuelle}
+            {stats.superficie_fsrp_actuelle} Ha
           </span>
         </div>
       </div>

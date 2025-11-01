@@ -29,7 +29,7 @@ function Navigation() {
         <ul>
           <NavItem to="/beneficiaire" icon="fa-users" label="Bénéficiaire" />
           <NavItem to="/formation" icon="fa-graduation-cap" label="Formation" />
-          <NavItem to="/livraison" icon="fa-truck" label="Livraison" />
+          {/* <NavItem to="/livraison" icon="fa-truck" label="Livraison" /> */}
 
           {role === "ROLE_ADMIN" && (
             <>

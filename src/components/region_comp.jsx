@@ -4,16 +4,19 @@ import {
   getDistrictsByRegion,
   addDistrict,
   updateDistrict,
+  deleteDistrict,
 } from "../service/district";
 import {
   getFokontanyByCommune,
   addFokontany,
   updateFokontany,
+  deleteFokontany,
 } from "../service/fokontany";
 import {
   getCommunesByDistrict,
   addCommune,
   updateCommune,
+  deleteCommune,
 } from "../service/commune";
 import Editer_connexion from "./editer_connexion";
 import {
@@ -21,11 +24,19 @@ import {
   addAppartenance,
   updateAppartenance,
 } from "../service/appartenance";
+import Alert_message from "../components/alert_message";
+import Suppression from "./suppression";
 
 function Region_comp({ region, setShowReg, regionId }) {
   const [districts, setDistricts] = useState([]);
   const [communes, setCommunes] = useState([]);
   const [fokontanys, setFokontanys] = useState([]);
+  const [showSuppression, setShowSuppression] = useState(false);
+  const [deleteInfo, setDeleteInfo] = useState({
+    type: "",
+    id: null,
+    name: "",
+  });
 
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedCommune, setSelectedCommune] = useState(null);
@@ -35,8 +46,68 @@ function Region_comp({ region, setShowReg, regionId }) {
 
   const [showEditConnexion, setShowEditConnexion] = useState(false);
   const [appartenanceEditingList, setAppartenanceEditingList] = useState([]);
+  const [alert, setAlert] = useState({ visible: false, message: "", type: "" });
+
+  const showAlert = (message, type = "info") => {
+    setAlert({ visible: true, message, type });
+    setTimeout(() => setAlert({ visible: false, message: "", type: "" }), 4000);
+  };
 
   console.log(regionId);
+
+  const handleDeleteClick = (type, id, name) => {
+    setDeleteInfo({ type, id, name });
+    setShowSuppression(true);
+  };
+
+  const confirmDeletion = async () => {
+    try {
+      const { type, id } = deleteInfo;
+
+      if (type === "district") {
+        await deleteDistrict(id);
+        const data = await getDistrictsByRegion(regionId);
+        setDistricts(
+          data.map((d) => ({ id: d.idDist, name: d.nomDist, editing: false }))
+        );
+        setSelectedDistrict(null);
+      } else if (type === "commune") {
+        await deleteCommune(id);
+        const data = await getCommunesByDistrict(selectedDistrict.id);
+        setCommunes(
+          data.map((c) => ({
+            id: c.idComm,
+            name: c.nomComm,
+            districtId: selectedDistrict.id,
+            editing: false,
+          }))
+        );
+        setSelectedCommune(null);
+      } else if (type === "fokontany") {
+        await deleteFokontany(id);
+        const data = await getFokontanyByCommune(selectedCommune.id);
+        setFokontanys(
+          data.map((f) => ({
+            id: f.idFok,
+            name: f.nomFok,
+            communeId: selectedCommune.id,
+            editing: false,
+          }))
+        );
+        setSelectedFokontany(null);
+      } else if (type === "appartenance") {
+        // await deleteAppartenance(id);
+        const data = await getAppartenancesByFokontany(selectedFokontany.id);
+        setAppartenances(data.map((a) => ({ ...a, editing: false })));
+      }
+
+      setShowSuppression(false);
+      setDeleteInfo({ type: "", id: null, name: "" });
+      showAlert(`Suppression de ${deleteInfo.type} réussie`, "success");
+    } catch (err) {
+      console.error("Erreur lors de la suppression :", err);
+    }
+  };
 
   const startEditingDistrict = (id) => {
     setDistricts(
@@ -72,9 +143,11 @@ function Region_comp({ region, setShowReg, regionId }) {
       await updateDistrict(id, { nomDist: district.name });
 
       const data = await getDistrictsByRegion(regionId);
+
       setDistricts(
         data.map((d) => ({ id: d.idDist, name: d.nomDist, editing: false }))
       );
+      showAlert("Mis a jour effectué avec succès", "success");
     } catch (err) {
       console.error("Erreur lors de la modification du district :", err);
     }
@@ -96,6 +169,7 @@ function Region_comp({ region, setShowReg, regionId }) {
           editing: false,
         }))
       );
+      showAlert("Mis a jour effectué avec succès", "success");
     } catch (err) {
       console.error("Erreur lors de la modification de la commune :", err);
     }
@@ -117,6 +191,7 @@ function Region_comp({ region, setShowReg, regionId }) {
           editing: false,
         }))
       );
+      showAlert("Mis a jour effectué avec succès", "success");
     } catch (err) {
       console.error("Erreur lors de la modification du fokontany :", err);
     }
@@ -134,6 +209,7 @@ function Region_comp({ region, setShowReg, regionId }) {
 
       const data = await getAppartenancesByFokontany(selectedFokontany.id);
       setAppartenances(data.map((a) => ({ ...a, editing: false })));
+      showAlert("Mis a jour effectué avec succès", "success");
     } catch (err) {
       console.error("Erreur lors de la modification de l'appartenance :", err);
     }
@@ -210,6 +286,7 @@ function Region_comp({ region, setShowReg, regionId }) {
 
       // Retirer la ligne temporaire
       setAppartenanceEditingList((prev) => prev.filter((a) => a.id !== tempId));
+      showAlert("Ajout effectué avec succès", "success");
     } catch (err) {
       console.error("Erreur lors de l'ajout de l'appartenance :", err);
     }
@@ -297,6 +374,7 @@ function Region_comp({ region, setShowReg, regionId }) {
             : d
         )
       );
+      showAlert("Ajout effectué avec succès", "success");
     } catch (err) {
       console.error("Erreur lors de l'ajout du district :", err);
     }
@@ -343,6 +421,7 @@ function Region_comp({ region, setShowReg, regionId }) {
             : c
         )
       );
+      showAlert("Ajout effectué avec succès", "success");
     } catch (err) {
       console.error("Erreur lors de l'ajout de la commune :", err);
     }
@@ -369,6 +448,7 @@ function Region_comp({ region, setShowReg, regionId }) {
             : f
         )
       );
+      showAlert("Ajout effectué avec succès", "success");
     } catch (err) {
       console.error("Erreur lors de l'ajout du fokontany :", err);
     }
@@ -519,7 +599,13 @@ function Region_comp({ region, setShowReg, regionId }) {
             >
               <i className="fa fa-pen"></i>
             </button>
-            <button id="sup">
+            <button
+              id="sup"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteClick("district", d.id, d.name);
+              }}
+            >
               <i className="fa fa-trash-alt"></i>
             </button>
           </>
@@ -603,7 +689,13 @@ function Region_comp({ region, setShowReg, regionId }) {
             >
               <i className="fa fa-pen"></i>
             </button>
-            <button id="sup">
+            <button
+              id="sup"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteClick("commune", c.id, c.name);
+              }}
+            >
               <i className="fa fa-trash-alt"></i>
             </button>
           </>
@@ -687,7 +779,13 @@ function Region_comp({ region, setShowReg, regionId }) {
             >
               <i className="fa fa-pen"></i>
             </button>
-            <button id="sup">
+            <button
+              id="sup"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteClick("fokontany", f.id, f.name);
+              }}
+            >
               <i className="fa fa-trash-alt"></i>
             </button>
           </>
@@ -779,7 +877,17 @@ function Region_comp({ region, setShowReg, regionId }) {
               >
                 <i className="fa fa-pen"></i>
               </button>
-              <button id="sup">
+              <button
+                id="sup"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteClick(
+                    "appartenance",
+                    a.idAppartenance,
+                    a.nomAppartenance
+                  );
+                }}
+              >
                 <i className="fa fa-trash-alt"></i>
               </button>
             </>
@@ -943,6 +1051,20 @@ function Region_comp({ region, setShowReg, regionId }) {
           onClose={() => setShowEditConnexion(false)}
         />
       )}
+      {showSuppression && (
+        <Suppression
+          titre_sup={deleteInfo.type}
+          texte="Tous les éléments associés seront également supprimés."
+          setShowSupCrud={setShowSuppression}
+          onConfirmDelete={confirmDeletion}
+        />
+      )}
+      <Alert_message
+        visible={alert.visible}
+        message={alert.message}
+        type={alert.type}
+        onClose={() => setAlert({ ...alert, visible: false })}
+      />
     </div>
   );
 }
