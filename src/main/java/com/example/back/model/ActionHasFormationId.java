@@ -19,7 +19,6 @@ public class ActionHasFormationId implements Serializable {
         this.idFormation = idFormation;
     }
 
-    // Getters & Setters
     public Integer getIdAction() {
         return idAction;
     }

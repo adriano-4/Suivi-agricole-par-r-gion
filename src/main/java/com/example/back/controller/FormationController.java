@@ -59,14 +59,25 @@ public class FormationController {
         return ResponseEntity.ok(updatedFormation);
     }
 
-    @PutMapping("/actions/{idAction}/formation/{idFormation}")
-    public ResponseEntity<ActionHasFormation> updateActionDate(
-            @PathVariable Integer idAction,
-            @PathVariable Integer idFormation,
-            @RequestBody ActionUpdateRequest req
-    ) {
-        ActionHasFormation updatedAction = actionHasFormationService
-                .updateActionDate(idAction, idFormation, req.getDateAction());
-        return ResponseEntity.ok(updatedAction);
-    }
+//    @PutMapping("/actions/{idAction}/formation/{idFormation}")
+//    public ResponseEntity<ActionHasFormation> updateActionDate(
+//            @PathVariable Integer idAction,
+//            @PathVariable Integer idFormation,
+//            @RequestBody ActionUpdateRequest req
+//    ) {
+//        ActionHasFormation updatedAction = actionHasFormationService
+//                .updateActionDate(idAction, idFormation, req.getDateAction());
+//        return ResponseEntity.ok(updatedAction);
+//    }
+@PutMapping("/actions/{idAction}/formation/{idFormation}")
+public ResponseEntity<ActionHasFormation> updateAction(
+        @PathVariable Integer idAction,
+        @PathVariable Integer idFormation,
+        @RequestBody ActionUpdateRequest req
+) {
+    ActionHasFormation updatedAction = actionHasFormationService
+            .updateAction(idAction, idFormation, req.getDateAction(), req.getEtat());
+    return ResponseEntity.ok(updatedAction);
+}
+
 }

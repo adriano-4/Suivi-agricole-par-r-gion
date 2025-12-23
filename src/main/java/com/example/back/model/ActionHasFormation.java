@@ -25,6 +25,9 @@ public class ActionHasFormation {
     @Column(name = "date_action")
     private LocalDate dateAction;
 
+    @Column(name = "etat")
+    private Integer etat;
+
     // Getters & Setters
     public ActionHasFormationId getId() {
         return id;
@@ -56,5 +59,11 @@ public class ActionHasFormation {
 
     public void setDateAction(LocalDate  dateAction) {
         this.dateAction = dateAction;
+    }
+    public Integer getEtat(){
+        return etat;
+    }
+    public void setEtat(Integer etat){
+        this.etat = etat;
     }
 }

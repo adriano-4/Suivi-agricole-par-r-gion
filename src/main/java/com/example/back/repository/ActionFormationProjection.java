@@ -7,4 +7,5 @@ public interface ActionFormationProjection {
     Integer getIdFormation();
     String getTypeAction();
     LocalDate getDateAction();
+    Integer getEtat();
 }

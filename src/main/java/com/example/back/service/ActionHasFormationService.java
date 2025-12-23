@@ -22,17 +22,30 @@ public class ActionHasFormationService {
         return actionHasFormationRepository.getActionDetailsByFormation(idFormation);
     }
 
-    @Transactional
-    public ActionHasFormation updateActionDate(Integer idAction, Integer idFormation, LocalDate newDate) {
-        Optional<ActionHasFormation> optionalAction = actionHasFormationRepository
-                .findById_IdActionAndId_IdFormation(idAction, idFormation);
+//    @Transactional
+//    public ActionHasFormation updateActionDate(Integer idAction, Integer idFormation, LocalDate newDate) {
+//        Optional<ActionHasFormation> optionalAction = actionHasFormationRepository
+//                .findById_IdActionAndId_IdFormation(idAction, idFormation);
+//
+//        ActionHasFormation action = optionalAction
+//                .orElseThrow(() -> new EntityNotFoundException(
+//                        "Action non trouvée avec idAction " + idAction + " et idFormation " + idFormation));
+//
+//        action.setDateAction(newDate);
+//        return actionHasFormationRepository.save(action);
+//    }
+@Transactional
+public ActionHasFormation updateAction(Integer idAction, Integer idFormation, LocalDate newDate, Integer etat) {
+    ActionHasFormation action = actionHasFormationRepository
+            .findById_IdActionAndId_IdFormation(idAction, idFormation)
+            .orElseThrow(() -> new EntityNotFoundException(
+                    "Action non trouvée avec idAction " + idAction + " et idFormation " + idFormation));
 
-        ActionHasFormation action = optionalAction
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Action non trouvée avec idAction " + idAction + " et idFormation " + idFormation));
+    if (newDate != null) action.setDateAction(newDate);
+    if (etat != null) action.setEtat(etat);
 
-        action.setDateAction(newDate);
-        return actionHasFormationRepository.save(action);
-    }
+    return actionHasFormationRepository.save(action);
+}
+
 
 }

@@ -1,10 +1,14 @@
 package com.example.back.controller;
 
+import com.example.back.dto.BeneficiaireIntrantDTO;
 import com.example.back.dto.BeneficiaireUpdateRequest;
+import com.example.back.dto.UpdateQuantiteDTO;
 import com.example.back.model.Beneficiaire;
+import com.example.back.service.BeneficiaireIntrantService;
 import com.example.back.service.BeneficiaireService;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -12,9 +16,14 @@ import java.util.List;
 public class BeneficiaireController {
 
     private final BeneficiaireService service;
+    private final BeneficiaireIntrantService intrantService;
 
-    public BeneficiaireController(BeneficiaireService service) {
+
+    public BeneficiaireController(
+            BeneficiaireService service,
+            BeneficiaireIntrantService intrantService) {
         this.service = service;
+        this.intrantService = intrantService;
     }
 
     @GetMapping
@@ -39,5 +48,33 @@ public class BeneficiaireController {
                 request.getIdAppartenance()
         );
     }
+
+    @GetMapping("/{id}/intrants")
+    public List<BeneficiaireIntrantDTO> getIntrants(
+            @PathVariable Integer id) {
+        return intrantService.getIntrantsByBeneficiaire(id);
+    }
+
+//    @PutMapping("/{idBenef}/intrants/{idIntrant}")
+//    public void updateQuantite(
+//            @PathVariable Integer idBenef,
+//            @PathVariable Integer idIntrant,
+//            @RequestParam BigDecimal quantite
+//    ) {
+//        intrantService.updateQuantiteIntrant(idBenef, idIntrant, quantite);
+//    }
+@PutMapping("/{idBenef}/intrants/{idIntrant}")
+public void updateQuantite(
+        @PathVariable Integer idBenef,
+        @PathVariable Integer idIntrant,
+        @RequestBody UpdateQuantiteDTO dto
+) {
+    intrantService.updateQuantiteIntrant(
+            idBenef,
+            idIntrant,
+            dto.getQuantite()
+    );
+}
+
 
 }

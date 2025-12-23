@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ActionHasFormationRepository extends JpaRepository<ActionHasFormation, ActionHasFormationId> {
 
-    @Query("SELECT a.idAction AS idAction, f.idFormation AS idFormation, a.typeAction AS typeAction, af.dateAction AS dateAction " +
+    @Query("SELECT a.idAction AS idAction, f.idFormation AS idFormation, a.typeAction AS typeAction, af.dateAction AS dateAction, af.etat AS etat " +
             "FROM ActionHasFormation af " +
             "JOIN af.formation f " +
             "JOIN af.action a " +

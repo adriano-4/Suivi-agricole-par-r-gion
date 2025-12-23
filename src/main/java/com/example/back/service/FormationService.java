@@ -84,18 +84,40 @@ public class FormationService {
         System.out.println("✅ ID reçu pour updateFormation: " + req.getIdSuperviseur());
         System.out.println("✅ ID reçu pour updateFormation: " + req.getIdTechnicien());
 
-        Formation existing = formationRepo.findById(idFormation)
-                .orElseThrow(() -> new RuntimeException("Formation introuvable avec l'id : " + idFormation));
-        Appartenance appart = appartenanceRepo.findById(req.getIdAppartenance())
-                .orElseThrow(() -> new RuntimeException("Appartenance non trouvée"));
-        Superviseur sup = superviseurRepo.findById(req.getIdSuperviseur())
-                .orElseThrow(() -> new RuntimeException("Superviseur non trouvé"));
-        Technicien tech = technicienRepo.findById(req.getIdTechnicien())
-                .orElseThrow(() -> new RuntimeException("Technicien non trouvé"));
+       Formation existing = formationRepo.findById(idFormation)
+               .orElseThrow(() -> new RuntimeException("Formation introuvable avec l'id : " + idFormation));
 
-        existing.setAppartenance(appart);
-        existing.setSuperviseur(sup);
-        existing.setTechnicien(tech);
+//        Appartenance appart = appartenanceRepo.findById(req.getIdAppartenance())
+//                .orElseThrow(() -> new RuntimeException("Appartenance non trouvée"));
+//        Superviseur sup = superviseurRepo.findById(req.getIdSuperviseur())
+//                .orElseThrow(() -> new RuntimeException("Superviseur non trouvé"));
+//        Technicien tech = technicienRepo.findById(req.getIdTechnicien())
+//                .orElseThrow(() -> new RuntimeException("Technicien non trouvé"));
+
+        if (req.getIdAppartenance() != null) {
+            Appartenance appart = appartenanceRepo.findById(req.getIdAppartenance())
+                    .orElseThrow(() -> new RuntimeException("Appartenance non trouvée"));
+            existing.setAppartenance(appart);
+        }
+
+        if (req.getIdSuperviseur() != null) {
+            Superviseur sup = superviseurRepo.findById(req.getIdSuperviseur())
+                    .orElseThrow(() -> new RuntimeException("Superviseur non trouvé"));
+            existing.setSuperviseur(sup);
+        }
+
+        if (req.getIdTechnicien() != null) {
+            Technicien tech = technicienRepo.findById(req.getIdTechnicien())
+                    .orElseThrow(() -> new RuntimeException("Technicien non trouvé"));
+            existing.setTechnicien(tech);
+        }
+
+        existing.setDateFormation(req.getDateFormation());
+        existing.setRemarque(req.getRemarque());
+
+        //existing.setAppartenance(appart);
+        //existing.setSuperviseur(sup);
+        //existing.setTechnicien(tech);
         existing.setDateFormation(req.getDateFormation());
         existing.setRemarque(req.getRemarque());
 
