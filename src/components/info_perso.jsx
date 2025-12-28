@@ -8,7 +8,7 @@ import "../css/beneficiaire.css";
 import Alert_message from "../components/alert_message";
 import { getAllRegions } from "../service/region";
 
-function Info_perso({ setShowInfo, beneficiaire }) {
+function Info_perso({ setShowInfo, beneficiaire, refresh }) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     nomBenef: beneficiaire.nomBenef || "",
@@ -49,22 +49,6 @@ function Info_perso({ setShowInfo, beneficiaire }) {
       return () => clearTimeout(timer);
     }
   }, [alertVisible]);
-
-  // useEffect(() => {
-  //   const fetchAppartenances = async () => {
-  //     try {
-  //       const data = await getAppartenances();
-  //       setAppartenances(data);
-  //     } catch (error) {
-  //       console.error(
-  //         "Erreur lors de la récupération des appartenances :",
-  //         error
-  //       );
-  //     }
-  //   };
-
-  //   fetchAppartenances();
-  // }, []);
 
   useEffect(() => {
     const fetchAppartenances = async () => {
@@ -120,96 +104,6 @@ function Info_perso({ setShowInfo, beneficiaire }) {
     });
   }, [beneficiaire]);
 
-  // const handleEditToggle = async () => {
-  //   if (isEditing) {
-  //     setLoading(true);
-  //     try {
-  //       // Ajoute l'heure si non présente
-  //       const dateAvecHeure = formData.datnais.includes("T")
-  //         ? formData.datnais
-  //         : `${formData.datnais}T00:00:00`;
-
-  //       // const updateData = {
-  //       //   beneficiaire: {
-  //       //     nom: formData.nomBenef,
-  //       //     prenom: formData.prenomBenef,
-  //       //     surnom: formData.surnomBenef,
-  //       //     cin: formData.cin,
-  //       //     genre: formData.genre,
-  //       //     dateNaissance: dateAvecHeure, // ✅ Envoi complet avec l'heure
-  //       //     lieuNaissance: formData.lieunais,
-  //       //     situationMatrimoniale: formData.situationMat,
-  //       //     nomConjoint: formData.nomConjoint,
-  //       //     contact: formData.contact,
-  //       //   },
-  //       //   campagne: {
-  //       //     supTotPrec: formData.supTotPrec,
-  //       //     rendementPrec: formData.rendementPrec,
-  //       //     varieteRiz: formData.varieteRiz,
-  //       //     supTotActuelle: formData.supTotActuelle,
-  //       //     supFsrpActuelle: formData.supFSRPActuelle,
-  //       //   },
-  //       //   idAppartenance: formData.idAppartenance,
-  //       // };
-
-  //       const updateData = {
-  //         beneficiaire: {
-  //           nom: formData.nomBenef,
-  //           prenom: formData.prenomBenef,
-  //           surnom: formData.surnomBenef,
-  //           cin: formData.cin,
-  //           genre: formData.genre,
-  //           dateNaissance: dateAvecHeure,
-  //           lieuNaissance: formData.lieunais,
-  //           situationMatrimoniale: formData.situationMat,
-  //           nomConjoint: formData.nomConjoint,
-  //           contact: formData.contact,
-  //           remarqueSup: "",
-  //           appartenance: {
-  //             idAppartenance: parseInt(formData.idAppartenance, 10),
-  //           },
-  //         },
-  //         campagne: {
-  //           supTotPrec: parseFloat(formData.supTotPrec) || 0,
-  //           rendementPrec: parseFloat(formData.rendementPrec) || 0,
-  //           varieteRiz: formData.varieteRiz,
-  //           supTotActuelle: parseFloat(formData.supTotActuelle) || 0,
-  //           supFsrpActuelle: parseFloat(formData.supFSRPActuelle) || 0,
-  //         },
-  //       };
-
-  //       const updatedBenef = await updateBeneficiaire(
-  //         beneficiaire.idBenef,
-  //         updateData
-  //       );
-
-  //       setFormData({
-  //         ...formData,
-  //         ...updatedBenef,
-  //         datnais: updatedBenef.dateNaissance
-  //           ? updatedBenef.dateNaissance.split("T")[0]
-  //           : formData.datnais,
-  //       });
-
-  //       setAlertMessage("Mise à jour effectuée avec succès !");
-  //       setAlertVisible(true);
-  //       setTimeout(() => {
-  //         setAlertVisible(false);
-  //       }, 5000);
-  //     } catch (error) {
-  //       console.error("Erreur lors de la mise à jour :", error);
-  //       setAlertMessage("Erreur lors de la mise à jour !");
-  //       setAlertVisible(true);
-  //       setTimeout(() => {
-  //         setAlertVisible(false);
-  //       }, 5000);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-  //   setIsEditing(!isEditing);
-  // };
-
   const handleEditToggle = async () => {
     if (isEditing) {
       setLoading(true);
@@ -258,6 +152,9 @@ function Info_perso({ setShowInfo, beneficiaire }) {
 
         setAlertMessage("Mise à jour effectuée avec succès !");
         setAlertVisible(true);
+        if (refresh) {
+          refresh();
+        }
 
         setTimeout(() => {
           setIsEditing(false);
@@ -277,44 +174,6 @@ function Info_perso({ setShowInfo, beneficiaire }) {
     }
   };
 
-  // const handleEditToggle = async () => {
-  //   if (isEditing) {
-  //     setLoading(true);
-  //     try {
-  //       const updateData = {
-  //         beneficiaire: {
-  //           nom: formData.nomBenef,
-  //           prenom: formData.prenomBenef,
-  //           surnom: formData.surnomBenef,
-  //           cin: formData.cin,
-  //           genre: formData.genre,
-  //           dateNaissance: formData.datnais,
-  //           lieuNaissance: formData.lieunais,
-  //           situationMatrimoniale: formData.situationMat,
-  //           nomConjoint: formData.nomConjoint,
-  //           contact: formData.contact,
-  //         },
-  //         campagne: {
-  //           supTotPrec: formData.supTotPrec,
-  //           rendementPrec: formData.rendementPrec,
-  //           varieteRiz: formData.varieteRiz,
-  //           supTotActuelle: formData.supTotActuelle,
-  //           supFsrpActuelle: formData.supFSRPActuelle,
-  //         },
-  //         idAppartenance: formData.idAppartenance,
-  //       };
-
-  //       await updateBeneficiaire(beneficiaire.idBenef, updateData);
-  //       setFormData({ ...formData });
-  //     } catch (error) {
-  //       console.error("Erreur lors de la mise à jour :", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-  //   setIsEditing(!isEditing);
-  // };
-
   const handleCancel = () => {
     setFormData({ ...beneficiaire });
     setIsEditing(false);
@@ -325,6 +184,7 @@ function Info_perso({ setShowInfo, beneficiaire }) {
       <div id="info_perso2">
         <div className="entete">
           <h3>Informations personnelles</h3>
+
           <button onClick={() => setShowInfo(false)}>
             <i className="fa fa-plus"></i>
           </button>
@@ -668,7 +528,7 @@ function Info_perso({ setShowInfo, beneficiaire }) {
                   onChange={handleChange}
                 />
               ) : (
-                <span>{formData.supTotPrec}</span>
+                <span>{formData.supTotPrec} Ha</span>
               )}
             </div>
             <div>
@@ -712,7 +572,7 @@ function Info_perso({ setShowInfo, beneficiaire }) {
                   onChange={handleChange}
                 />
               ) : (
-                <span>{formData.supTotActuelle}</span>
+                <span>{formData.supTotActuelle} Ha</span>
               )}
             </div>
             <div>
@@ -726,7 +586,7 @@ function Info_perso({ setShowInfo, beneficiaire }) {
                   onChange={handleChange}
                 />
               ) : (
-                <span>{formData.supFSRPActuelle}</span>
+                <span>{formData.supFSRPActuelle} Ha</span>
               )}
             </div>
           </div>

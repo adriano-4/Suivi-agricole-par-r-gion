@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "../css/suivi.css";
 import { getStatByRegion } from "../service/stat";
 
-function donnee({ region }) {
+function donnee({ region, onPlusStatClick }) {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -33,6 +33,9 @@ function donnee({ region }) {
   if (!stats) return <p>Aucune statistique disponible.</p>;
 
   const valueClass = (val) => (val === 0 ? "stat-zero" : "");
+  const valeurmax = 200;
+  const superficieCible = stats.superficie_fsrp_actuelle;
+  const pourcentage = Math.min((superficieCible / valeurmax) * 100, 100);
 
   return (
     <div id="donnee">
@@ -70,11 +73,32 @@ function donnee({ region }) {
           </span>
         </div>
         <div>
-          <p>Superficie d'appui ({anneeActuelle}):</p>
+          <p>Superficie cible ({anneeActuelle}):</p>
           <span className={valueClass(stats.superficie_fsrp_actuelle)}>
             {stats.superficie_fsrp_actuelle} Ha
           </span>
         </div>
+      </div>
+      {/* <section className="pource">
+        <text className="objectif">Objectif : {valeurmax} Ha</text>
+        <div className="pourcentage">
+          <div className="actuel" style={{ width: `${pourcentage}%` }}>
+            {pourcentage > 0 && <text>{pourcentage}%</text>}
+          </div>
+        </div>
+      </section> */}
+      <div id="plu_info">
+        {" "}
+        <button
+          id="plus_stat"
+          onClick={() => {
+            if (onPlusStatClick) onPlusStatClick(region, stats);
+          }}
+        >
+          <span>Plus de statistiques</span>
+          <i className="fa fa-arrow-right"></i>
+          {/* <i className="fa fa-chart-column"></i> */}
+        </button>
       </div>
     </div>
   );

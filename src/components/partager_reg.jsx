@@ -11,6 +11,7 @@ function partager_reg({ nom_reg, selectAll, onSelectChange }) {
   const handleClick = () => {
     setSelected((prev) => !prev);
   };
+
   useEffect(() => {
     onSelectChange(nom_reg, selected);
   }, [selected, nom_reg, onSelectChange]);

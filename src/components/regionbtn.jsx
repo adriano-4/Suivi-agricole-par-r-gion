@@ -10,8 +10,9 @@ function regionbtn({ region, setShowReg, setShowSupCrud }) {
       }}
     >
       <span>
+        <i id="map-mark" class="fa fa-map-marker-alt"></i>
         {region.nomReg}
-        <div
+        {/* <div
           id="sup_reg"
           onClick={(e) => {
             e.stopPropagation();
@@ -19,7 +20,7 @@ function regionbtn({ region, setShowReg, setShowSupCrud }) {
           }}
         >
           <i className="fa fa-trash-alt"></i>
-        </div>
+        </div> */}
       </span>
       {/* <p>
         plus d'info <i className="fa fa-arrow-right"></i>

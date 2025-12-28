@@ -111,6 +111,7 @@ function Reporter({ setShowReporter, formation, refreshFormations }) {
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
+            min={formation.dateFormation?.split("T")[0]}
           />
           <div id="choix_tous">
             <p>Description du cause :</p>

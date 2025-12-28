@@ -2,9 +2,9 @@
   z-index: 1000;
   position: absolute;
   bottom: 20px;
-  left: 20px;
-  /* background-color: rgb(255, 255, 255); */
-  background-color: rgb(57, 57, 80);
+  right: 20px;
+  background-color: rgb(255, 255, 255);
+  /* background-color: rgb(57, 57, 80); */
   width: 450px;
   height: 70px;
   border-radius: 10px;
@@ -13,6 +13,7 @@
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
+  border: 1px solid rgba(0, 0, 66, 0.237);
   animation: alert 0.4s ease-in-out;
 }
 @keyframes alert {
@@ -31,8 +32,9 @@
 }
 #chargement {
   width: 100%;
-  height: 5px;
-  background-color: white;
+  height: 3px;
+  /* background-color: white; */
+  background-color: var(--bleu);
   opacity: 0.5;
   animation: chargement 5s ease-in-out;
   border-right: 3px solid var(--vert-fonce);
@@ -59,20 +61,39 @@
 }
 #message h3 {
   margin: 0;
-  font-size: 13.3px;
+  /* font-size: 13.3px; */
+  font-size: 12px;
   margin-left: 30px;
-  color: white;
-
-  /* color: rgba(0, 0, 0, 0.567); */
+  /* color: white; */
+  /* color: var(--bleu); */
+  color: rgba(0, 0, 0, 0.567);
 }
 #button_mess button {
-  border-radius: 20px;
+  border-radius: 10px;
   font-size: 13px;
-  width: 70px;
+  width: 60px;
   margin-right: 20px;
   /* background-color: var(--vert-clair); */
-  background-color: var(--bleu);
+  /* background-color: var(--bleu); */
   border: none;
   outline: none;
   padding-bottom: 10px;
+  /* color: white; */
+  color: var(--bleu);
+  background-color: rgb(232, 239, 255);
+  border: 1px solid rgba(0, 0, 66, 0.237);
+}
+
+#info_icon {
+  margin-left: 20px;
+  /* color: var(--vert-fonce); */
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  border-radius: 50%;
+  height: 20px;
+  background-color: var(--bleu);
+  color: white;
 }

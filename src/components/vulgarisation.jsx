@@ -137,12 +137,31 @@ function vulgarisation({ setShowVulg, formation, onUpdateSuccess }) {
     }
   }, [alertVisible]);
 
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // };
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+
+    setFormData((prev) => {
+      let updated = { ...prev, [name]: value };
+
+      if (name === "nbrPf") {
+        updated.outilFormationPf = value;
+        updated.plaqueIdentificationPf = value;
+      }
+
+      if (name === "nbrEafEncadre") {
+        updated.ficheBpaSraComposte = value;
+        updated.ficheBpPostRecolte = value;
+      }
+      return updated;
+    });
   };
 
   const handleEditToggle = () => {
@@ -529,6 +548,7 @@ function vulgarisation({ setShowVulg, formation, onUpdateSuccess }) {
                   name="outilFormationPf"
                   value={formData.outilFormationPf}
                   onChange={handleChange}
+                  readOnly
                 />
               ) : (
                 <span>{formData.outilFormationPf}</span>
@@ -543,6 +563,7 @@ function vulgarisation({ setShowVulg, formation, onUpdateSuccess }) {
                   name="plaqueIdentificationPf"
                   value={formData.plaqueIdentificationPf}
                   onChange={handleChange}
+                  readOnly
                 />
               ) : (
                 <span>{formData.plaqueIdentificationPf}</span>
@@ -557,6 +578,7 @@ function vulgarisation({ setShowVulg, formation, onUpdateSuccess }) {
                   name="ficheBpaSraComposte"
                   value={formData.ficheBpaSraComposte}
                   onChange={handleChange}
+                  readOnly
                 />
               ) : (
                 <span>{formData.ficheBpaSraComposte}</span>
@@ -571,6 +593,7 @@ function vulgarisation({ setShowVulg, formation, onUpdateSuccess }) {
                   name="ficheBpPostRecolte"
                   value={formData.ficheBpPostRecolte}
                   onChange={handleChange}
+                  readOnly
                 />
               ) : (
                 <span>{formData.ficheBpPostRecolte}</span>

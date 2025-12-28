@@ -9,6 +9,7 @@ import { getActions } from "../service/action";
 import { updateFormation } from "../service/formation";
 import { updateActionDate } from "../service/action"; // Import de la fonction pour mettre à jour les dates d'actions
 import Alert_message from "../components/alert_message";
+import { log } from "@tensorflow/tfjs";
 
 function formation_date({ setShowFormation, formation, onUpdateSuccess }) {
   const [actions, setActions] = useState([]);
@@ -34,18 +35,37 @@ function formation_date({ setShowFormation, formation, onUpdateSuccess }) {
     prenomTech: formation?.prenomTech || "",
     idTech: formation?.idTech || "",
   });
+
+  const sortedActions = [...actions].sort((a, b) => a.idAction - b.idAction);
+
+  const actionsGauche = sortedActions.filter(
+    (a) =>
+      !a.typeAction.toLowerCase().includes("formation") &&
+      !a.typeAction.toLowerCase().includes("suivi")
+  );
+
+  const actionsDroite = sortedActions.filter(
+    (a) =>
+      a.typeAction.toLowerCase().includes("formation") ||
+      a.typeAction.toLowerCase().includes("suivi")
+  );
+
+  console.log("daten le formation ty : " + formation.dateFormation);
   const STATUS_STYLES = {
     "en cours": {
       border: "1px solid orange",
       background: "rgba(255, 165, 0, 0.1)",
+      color: "orange",
     },
     "en attente": {
-      border: "1px solid gray",
+      border: "1px solid rgba(128, 128, 128, 0.2)",
       background: "rgba(128, 128, 128, 0.1)",
+      color: "gray",
     },
     exécuté: {
-      border: "1px solid green",
+      border: "1px solid rgba(0, 128, 0, 0.2)",
       background: "rgba(0, 128, 0, 0.1)",
+      color: "green",
     },
   };
 
@@ -127,6 +147,23 @@ function formation_date({ setShowFormation, formation, onUpdateSuccess }) {
 
     fetchAppartenances();
   }, []);
+
+  // const getStatusFromEtat = (etat) => {
+  //   if (etat === 1) return "en cours";
+  //   if (etat === 2) return "exécuté";
+  //   return "en attente";
+  // };
+  const getStatus = (dateAction) => {
+    if (!dateAction) return "en attente";
+
+    const today = new Date();
+    const actionDate = new Date(dateAction);
+
+    if (actionDate < today.setHours(0, 0, 0, 0)) return "exécuté";
+    if (actionDate.toDateString() === new Date().toDateString())
+      return "en cours";
+    return "en attente";
+  };
 
   useEffect(() => {
     if (formation && appartenances.length > 0) {
@@ -268,17 +305,17 @@ function formation_date({ setShowFormation, formation, onUpdateSuccess }) {
     setAlertVisible(true);
   };
 
-  const actionsGauche = actions.filter(
-    (a) =>
-      !a.typeAction.toLowerCase().includes("formation") &&
-      !a.typeAction.toLowerCase().includes("suivi")
-  );
+  // const actionsGauche = actions.filter(
+  //   (a) =>
+  //     !a.typeAction.toLowerCase().includes("formation") &&
+  //     !a.typeAction.toLowerCase().includes("suivi")
+  // );
 
-  const actionsDroite = actions.filter(
-    (a) =>
-      a.typeAction.toLowerCase().includes("formation") ||
-      a.typeAction.toLowerCase().includes("suivi")
-  );
+  // const actionsDroite = actions.filter(
+  //   (a) =>
+  //     a.typeAction.toLowerCase().includes("formation") ||
+  //     a.typeAction.toLowerCase().includes("suivi")
+  // );
 
   return (
     <div id="info_perso">
@@ -475,8 +512,10 @@ function formation_date({ setShowFormation, formation, onUpdateSuccess }) {
               )}
             </section>
 
-            {actionsGauche.map((action, idx) => (
+            {/* {actionsGauche.map((action, idx) => (
               <div
+                style={STATUS_STYLES[getStatusFromEtat(action.etat)]}
+                // style={STATUS_STYLES[status]}
                 key={idx}
                 className="div_rond"
                 // style={{
@@ -496,6 +535,7 @@ function formation_date({ setShowFormation, formation, onUpdateSuccess }) {
                     onChange={(e) =>
                       handleActionDateChange(action.idAction, e.target.value)
                     }
+                    min={formation.dateFormation?.split("T")[0]}
                     style={{ fontSize: "12px", padding: "2px" }}
                   />
                 ) : (
@@ -506,14 +546,49 @@ function formation_date({ setShowFormation, formation, onUpdateSuccess }) {
                   </span>
                 )}
               </div>
-            ))}
+            ))} */}
+            {actionsGauche.map((action, idx) => {
+              const status = getStatus(action.dateAction); // calcul basé sur la date modifiée
+
+              return (
+                <div
+                  key={idx}
+                  className="div_rond"
+                  style={STATUS_STYLES[status]}
+                >
+                  <p>{action.typeAction}</p>
+                  {isEditing ? (
+                    <input
+                      id="input_update_date"
+                      type="date"
+                      value={
+                        action.dateAction ? action.dateAction.split("T")[0] : ""
+                      }
+                      onChange={(e) =>
+                        handleActionDateChange(action.idAction, e.target.value)
+                      }
+                      min={formation.dateFormation?.split("T")[0]}
+                      style={{ fontSize: "12px", padding: "2px" }}
+                    />
+                  ) : (
+                    <span style={{ fontSize: "12px" }}>
+                      {action.dateAction
+                        ? action.dateAction.split("T")[0]
+                        : "Date non renseignée"}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           {/* Actions de droite avec dates éditable en mode édition */}
           <div className="bas_droite" id="bas_droite_formation">
             <h3>Actions</h3>
-            {actionsDroite.map((action, idx) => (
+            {/* {actionsDroite.map((action, idx) => (
               <div
+                style={STATUS_STYLES[getStatusFromEtat(action.etat)]}
+                // style={STATUS_STYLES[status]}
                 key={idx}
                 // style={{
                 //   border: "1px solid red",
@@ -528,6 +603,7 @@ function formation_date({ setShowFormation, formation, onUpdateSuccess }) {
                     value={
                       action.dateAction ? action.dateAction.split("T")[0] : ""
                     }
+                    min={formation.dateFormation?.split("T")[0]}
                     onChange={(e) =>
                       handleActionDateChange(action.idAction, e.target.value)
                     }
@@ -541,7 +617,52 @@ function formation_date({ setShowFormation, formation, onUpdateSuccess }) {
                   </span>
                 )}
               </div>
-            ))}
+            ))} */}
+            {actionsDroite.map((action, idx) => {
+              const status = getStatus(action.dateAction); // calcul basé sur la date modifiée
+
+              return (
+                <div key={idx} style={STATUS_STYLES[status]}>
+                  <p>{action.typeAction}</p>
+                  {isEditing ? (
+                    <input
+                      id="input_update_date"
+                      type="date"
+                      value={
+                        action.dateAction ? action.dateAction.split("T")[0] : ""
+                      }
+                      onChange={(e) =>
+                        handleActionDateChange(action.idAction, e.target.value)
+                      }
+                      min={formation.dateFormation?.split("T")[0]}
+                      style={{ fontSize: "12px", padding: "2px" }}
+                    />
+                  ) : (
+                    <span style={{ fontSize: "12px" }}>
+                      {action.dateAction
+                        ? action.dateAction.split("T")[0]
+                        : "Date non renseignée"}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <div id="info_couleur">
+            <div className="gauche_info_couleur">
+              <div className="coul" style={STATUS_STYLES["en cours"]}></div>
+              <div className="coul" style={STATUS_STYLES["en attente"]}></div>
+              <div className="coul" style={STATUS_STYLES["exécuté"]}></div>
+            </div>
+            <div className="droite_info_couleur">
+              <p className="p_couleur">
+                Action actuellement en cours d'exécution
+              </p>
+              <p className="p_couleur">
+                Action actuellement en attente d'exécution
+              </p>
+              <p className="p_couleur">Action actuellement exécuté</p>
+            </div>
           </div>
         </div>
       </div>

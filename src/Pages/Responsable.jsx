@@ -483,7 +483,7 @@ function Responsable() {
           </div>
         </button>
 
-        <button
+        {/* <button
           className={activeRole === "responsable" ? "active" : ""}
           onClick={() => handleRoleClick("responsable")}
         >
@@ -494,9 +494,9 @@ function Responsable() {
           <div className="bas_resp">
             <p>Responsable de magasin dans livraison</p>
           </div>
-        </button>
+        </button> */}
 
-        <button
+        {/* <button
           className={activeRole === "produit" ? "active" : ""}
           onClick={() => handleRoleClick("produit")}
         >
@@ -507,18 +507,18 @@ function Responsable() {
           <div className="bas_resp">
             <p>Matériels et autres produits</p>
           </div>
-        </button>
+        </button> */}
 
         <button
           className={activeRole === "intrant" ? "active" : ""}
           onClick={() => handleRoleClick("intrant")}
         >
           <div className="tete_resp">
-            <i className="fa-solid fa-box-open"></i>
-            <span>Intrants</span>
+            <i className="fa fa-boxes"></i>
+            <span>Intrants et Matériels</span>
           </div>
           <div className="bas_resp">
-            <p>Intrants nécessaires pour la livraison</p>
+            <p>Intrants et matériels nécessaires pour la livraison</p>
           </div>
         </button>
       </div>
@@ -841,6 +841,7 @@ function Responsable() {
                             <input
                               id="ajout_resp"
                               value={editEntry.contact}
+                              maxLength={10}
                               onChange={(e) =>
                                 setEditEntry({
                                   ...editEntry,

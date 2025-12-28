@@ -23,6 +23,7 @@ import {
   getAppartenancesByFokontany,
   addAppartenance,
   updateAppartenance,
+  deleteAppartenance,
 } from "../service/appartenance";
 import Alert_message from "../components/alert_message";
 import Suppression from "./suppression";
@@ -96,7 +97,7 @@ function Region_comp({ region, setShowReg, regionId }) {
         );
         setSelectedFokontany(null);
       } else if (type === "appartenance") {
-        // await deleteAppartenance(id);
+        await deleteAppartenance(id);
         const data = await getAppartenancesByFokontany(selectedFokontany.id);
         setAppartenances(data.map((a) => ({ ...a, editing: false })));
       }

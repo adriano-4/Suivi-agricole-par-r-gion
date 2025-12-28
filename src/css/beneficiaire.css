@@ -14,8 +14,15 @@
   display: flex;
   align-items: center;
 }
-#recherche .gauche h2 {
+#recherche .gauche i {
+  position: relative;
+  top: 39px;
+  font-size: 15px;
   left: 50px;
+  color: var(--bleu);
+}
+#recherche .gauche h2 {
+  left: 70px;
   position: relative;
   top: 25px;
   color: rgba(0, 0, 0, 0.477);
@@ -150,6 +157,10 @@ table tr td #Apport i {
   left: 5px;
   font-size: 10px;
 }
+table tr td #info .fa-box-open {
+  position: relative;
+  top: 2px;
+}
 table tr td button {
   display: flex;
   align-items: center;
@@ -267,7 +278,7 @@ table tr td button:focus {
   justify-content: center;
   transform: rotate(45deg);
   position: relative;
-  right: 10px;
+  right: 25px;
   background-color: transparent;
   color: black;
   border: none;
@@ -448,6 +459,10 @@ table tr td button:focus {
   outline: none;
   font-size: 13px;
   border-radius: 5px;
+  border-bottom: 1px solid rgba(0, 128, 0, 0.384);
+}
+#info_perso2 .bas3 div select {
+  width: 270px;
 }
 #info_perso3 .bas3 div input {
   width: 450px;
@@ -467,10 +482,11 @@ table tr td button:focus {
 #info_perso2 .bas3 div select:focus,
 #info_perso3 .bas3 div input:focus,
 #info_perso2 .bas3 div input:focus {
-  border: none;
+  /* border: none; */
   outline: none;
-  background-color: rgba(0, 0, 0, 0.02);
+  /* background-color: rgba(0, 0, 0, 0.02); */
   box-shadow: 0 0 5px rgba(0, 42, 110, 0.11);
+  border-bottom: 1px solid rgb(0, 82, 0);
 }
 #button_ {
   display: flex;
@@ -484,11 +500,13 @@ table tr td button:focus {
 #button_ button {
   border-radius: 20px;
   font-size: 13.5px;
-  width: 200px;
-  height: 40px;
+  width: 150px;
+  height: 35px;
   border: none;
   transition: all 0.3s;
   outline: none;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 #annuler_ajout_ben {

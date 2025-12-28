@@ -9,6 +9,7 @@ import html2canvas from "html2canvas";
 import Chargement from "../components/chargement";
 import { getAllSuperficieRegion } from "../service/superficieRegion";
 import { Bar } from "react-chartjs-2";
+import { getObjectifs, updateObjectifQuantite } from "../service/objectif";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,6 +19,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import Genererrapport from "../components/genererrapport";
 
 ChartJS.register(
   CategoryScale,
@@ -27,6 +29,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+import Plusstat from "../components/plusstat";
 
 function Suivi() {
   const [regions, setRegions] = useState([]);
@@ -35,6 +38,14 @@ function Suivi() {
   const [stats, setStats] = useState([]);
   const [sup, setSup] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showGen, setShowGen] = useState(false);
+  const [showPlusStat, setShowPlusStat] = useState(false);
+  const [selectedRegion, setSelectedRegion] = useState(null);
+  const [selectedStats, setSelecterStats] = useState(null);
+  const [objectifs, setObjectifs] = useState([]);
+  const [editingId, setEditingId] = useState(null);
+  const [tempQuantite, setTempQuantite] = useState("");
+  const [searchObj, setSearchObj] = useState("");
 
   const getRandomColor = () => {
     const families = ["green", "blue", "pink"];
@@ -62,6 +73,19 @@ function Suivi() {
 
     return `rgb(${r},${g},${b})`;
   };
+
+  const fetchObjectifs = async () => {
+    try {
+      const data = await getObjectifs();
+      setObjectifs(data);
+    } catch (error) {
+      console.error("Erreur lors du chargement des objectifs :", error);
+    } finally {
+    }
+  };
+  useEffect(() => {
+    fetchObjectifs();
+  }, []);
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % affichages.length);
@@ -187,16 +211,39 @@ function Suivi() {
     link.href = imgData;
     link.download = `statistiques_region_${anneePrecedente}.png`;
     link.click();
+  };
 
-    // const pdf = new jsPDF("l", "pt", "a4");
-    // const imgProps = pdf.getImageProperties(imgData);
-    // const pdfWidth = pdf.internal.pageSize.getWidth();
-    // const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    // pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    // pdf.save(`statistiques_region_${anneePrecedente}.pdf`);
+  const handlePlusStat = (region, stats) => {
+    setSelectedRegion(region);
+    setSelecterStats(stats);
+    setShowPlusStat(true);
+  };
+
+  const handleValidate = async (idObj, newQuantite) => {
+    try {
+      await updateObjectifQuantite(idObj, newQuantite);
+
+      setObjectifs((prev) =>
+        prev.map((obj) =>
+          obj.idObj === idObj ? { ...obj, quantiteObj: newQuantite } : obj
+        )
+      );
+      fetchObjectifs();
+
+      setEditingId(null);
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour de l'objectif :", error);
+      alert("Erreur lors de la mise à jour de l'objectif.");
+    }
   };
 
   const affichages = [
+    <div key="a3" className="aff1">
+      <h3 id="aff1titre">SUPERFICIE CIBLE (FORMATION)</h3>
+      <div id="graphe2">
+        <Bar id="bargraphe" data={data3} options={options} />
+      </div>{" "}
+    </div>,
     <div key="a1" className="aff1">
       <h3 id="aff1titre">RENDEMENT MOYEN PAR REGION ({anneePrecedente})</h3>
       <div id="graphe2">
@@ -207,12 +254,6 @@ function Suivi() {
       <h3 id="aff1titre">RENDEMENT TOTAL PAR REGION ({anneePrecedente})</h3>
       <div id="graphe2">
         <Bar id="bargraphe" data={data2} options={options} />
-      </div>{" "}
-    </div>,
-    <div key="a3" className="aff1">
-      <h3 id="aff1titre">SUPERFICIE CIBLE (FORMATION)</h3>
-      <div id="graphe2">
-        <Bar id="bargraphe" data={data3} options={options} />
       </div>{" "}
     </div>,
   ];
@@ -229,7 +270,11 @@ function Suivi() {
             <div className="donnee__">
               {regions.length > 0 ? (
                 regions.map((region, index) => (
-                  <Donnee key={index} region={region} />
+                  <Donnee
+                    key={index}
+                    region={region}
+                    onPlusStatClick={handlePlusStat}
+                  />
                 ))
               ) : (
                 <p>Aucune région trouvée.</p>
@@ -239,6 +284,14 @@ function Suivi() {
           <div className="droite_suivi">
             <div className="gggg">
               <h2>Graphique</h2>
+              <button
+                id="generer_rapport"
+                onClick={() => {
+                  setShowGen(true);
+                }}
+              >
+                <span>Générer un rapport</span>✨
+              </button>
               <button id="down" onClick={handleDownload}>
                 <i className="fa fa-file-arrow-down"></i>
               </button>
@@ -255,7 +308,7 @@ function Suivi() {
               {affichages[currentIndex]}
             </div>
             <div className="partie_bas_graphique">
-              <Graphe
+              {/* <Graphe
                 regions={regions}
                 titre="Nombre de formations"
                 donnee={nbrFormationsParRegion}
@@ -267,15 +320,132 @@ function Suivi() {
                 donnee={nbrBeneficiairesParRegion}
                 nom="Bénéficiaires"
               />
-              {/* <Graphe
-              regions={regions}
-              titre="Nombre de Livraisons"
-              // donnee={nbrBeneficiairesParRegion}
-              nom="Livraisons"
-            /> */}
+              <Graphe
+                regions={regions}
+                titre="Nombre de Livraisons"
+                // donnee={nbrBeneficiairesParRegion}
+                nom="Livraisons"
+              /> */}
+              <div className="bas_graphique_obj">
+                <div className="div_titre">
+                  <h1 id="titre_obj">Objectifs</h1>{" "}
+                  <input
+                    id="rech_obj"
+                    type="text"
+                    placeholder="Recherche dans les objectifs ..."
+                    value={searchObj}
+                    onChange={(e) => setSearchObj(e.target.value)}
+                  />
+                </div>
+                <div className="obj_div">
+                  {/* {objectifs.map((obj) => (
+                    <div key={obj.idObj} className="obj_div1">
+                      <div className="obj_divh">
+                        <p>{obj.libelle}</p>
+                        {editingId !== obj.idObj && (
+                          <section>
+                            <span>
+                              {obj.quantiteObj}
+                              &nbsp;
+                              {obj.unite}
+                            </span>
+                            <i
+                              className="fa fa-pen-to-square"
+                              onClick={() => setEditingId(obj.idObj)}
+                            ></i>
+                          </section>
+                        )}
+                      </div>
+
+                      {editingId === obj.idObj && <div id="ligneobj"></div>}
+                      {editingId === obj.idObj && (
+                        <div className="obj_divb">
+                          <input
+                            type="text"
+                            placeholder="Objectif..."
+                            defaultValue={obj.quantiteObj}
+                            onChange={(e) => setTempQuantite(e.target.value)}
+                          />
+                          <div>
+                            <i
+                              className="fa-regular fa-circle-check"
+                              onClick={() =>
+                                handleValidate(obj.idObj, tempQuantite)
+                              }
+                            ></i>
+                            <i
+                              className="fa fa-xmark"
+                              onClick={() => setEditingId(null)}
+                            ></i>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))} */}
+                  {objectifs
+                    .filter((obj) => {
+                      const search = searchObj.toLowerCase();
+                      return (
+                        obj.libelle.toLowerCase().includes(search) ||
+                        obj.unite.toLowerCase().includes(search) ||
+                        obj.quantiteObj.toString().includes(search)
+                      );
+                    })
+                    .map((obj) => (
+                      <div key={obj.idObj} className="obj_div1">
+                        <div className="obj_divh">
+                          <p>{obj.libelle}</p>
+                          {editingId !== obj.idObj && (
+                            <section>
+                              <span>
+                                {obj.quantiteObj} &nbsp; {obj.unite}
+                              </span>
+                              <i
+                                className="fa fa-pen-to-square"
+                                onClick={() => setEditingId(obj.idObj)}
+                              ></i>
+                            </section>
+                          )}
+                        </div>
+
+                        {editingId === obj.idObj && <div id="ligneobj"></div>}
+                        {editingId === obj.idObj && (
+                          <div className="obj_divb">
+                            <input
+                              type="text"
+                              placeholder="Objectif..."
+                              defaultValue={obj.quantiteObj}
+                              onChange={(e) => setTempQuantite(e.target.value)}
+                            />
+                            <div>
+                              <i
+                                className="fa-regular fa-circle-check"
+                                onClick={() =>
+                                  handleValidate(obj.idObj, tempQuantite)
+                                }
+                              ></i>
+                              <i
+                                className="fa fa-xmark"
+                                onClick={() => setEditingId(null)}
+                              ></i>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      )}
+      {showGen && <Genererrapport regions={regions} setShowGen={setShowGen} />}
+      {showPlusStat && selectedRegion && (
+        <Plusstat
+          region={selectedRegion}
+          stats={selectedStats}
+          onClose={() => setShowPlusStat(false)}
+        />
       )}
     </div>
   );

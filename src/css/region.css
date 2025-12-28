@@ -59,6 +59,7 @@ h2 span {
   background-color: white;
   padding: 0;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.205);
+  animation: info 0.3s;
 }
 #info_perso2_region .entete {
   width: 100%;
@@ -318,4 +319,8 @@ h2 span {
 }
 #suggestions-list div:hover {
   background-color: #cccccc73;
+}
+
+#map-mark {
+  color: rgba(128, 0, 0, 0.51);
 }

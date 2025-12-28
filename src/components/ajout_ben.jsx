@@ -154,8 +154,12 @@ function AjoutBen({ setShowAjout_ben, refreshBeneficiaires }) {
         appartenance: { idAppartenance: formData.idAppartenance },
       };
 
+      showAlert("Bénéficiaire ajouté avec succès");
       await addBeneficiaire(payload);
-      setShowAjout_ben(false);
+      setTimeout(() => {
+        setShowAjout_ben(false);
+      }, 5000);
+
       if (refreshBeneficiaires) refreshBeneficiaires();
     } catch (error) {
       showAlert("Erreur lors de l'ajout du bénéficiaire");

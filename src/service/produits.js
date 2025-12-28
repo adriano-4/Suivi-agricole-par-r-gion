@@ -15,3 +15,12 @@ export const createAutreProduit = (data) =>
 export const updateAutreProduit = (id, data) =>
   api.put(`/autres-produits/${id}`, null, { params: data });
 export const deleteAutreProduit = (id) => api.delete(`/autres-produits/${id}`);
+
+export const getIntrantsByBeneficiaire = (idBenef) =>
+  api.get(`/beneficiaires/${idBenef}/intrants`);
+
+export const updateQuantiteIntrantBeneficiaire = (
+  idBenef,
+  idIntrant,
+  quantite
+) => api.put(`/beneficiaires/${idBenef}/intrants/${idIntrant}`, { quantite });

@@ -68,3 +68,16 @@ export const updateAppartenance = async (appartenanceId, appartenanceData) => {
     throw error;
   }
 };
+
+export const deleteAppartenance = async (appartenanceId) => {
+  try {
+    await api.delete(`/appartenances/${appartenanceId}`);
+    console.log(`Appartenance ${appartenanceId} supprimée avec succès.`);
+  } catch (error) {
+    console.error(
+      `Erreur lors de la suppression de l'appartenance ${appartenanceId} :`,
+      error
+    );
+    throw error;
+  }
+};

@@ -311,6 +311,7 @@ function Formation() {
       <NavBar />
       <div id="recherche">
         <div className="gauche">
+          <i className="fa fa-graduation-cap"></i>
           <h2>Formations</h2>
         </div>
         <div className="option">
